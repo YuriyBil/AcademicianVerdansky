@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 
 public class HexVerticalMinesweeper : MonoBehaviour {
 
@@ -296,7 +296,7 @@ public class HexVerticalMinesweeper : MonoBehaviour {
 		return levelDataTranspose;
 	}
 	public void RestartGame(){//reload to restart
-		Application.LoadLevel(0);
+		SceneManager.LoadScene(0);
 	}
 	void showGameOver()
     {
