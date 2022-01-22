@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
         if (health == 0)
         {
-            Application.LoadLevel(1);
+
         }
 
     }
