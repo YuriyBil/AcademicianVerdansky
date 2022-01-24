@@ -33,16 +33,10 @@ public class Player : MonoBehaviour
             health -= randomAttack;
             Debug.Log( "Сила удара = " + randomAttack);
             Debug.Log("Осталось здоровья = " + health);
-        }
-        else
+        } 
+        if (health <= 0)
         {
-            Debug.Log("fuckYu");
+            Debug.Log("GameOver");             
         }
-
-        if (health == 0)
-        {
-
-        }
-
     }
 }
