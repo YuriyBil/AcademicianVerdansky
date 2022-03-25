@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HexVerticalMinesweeper : MonoBehaviour {
 
+	[SerializeField]
+	Player player;
 	//prefabs
 	public GameObject hexCellPrefab;//the hex cell go with hexcell script
 	//UI elements
@@ -205,7 +207,8 @@ public class HexVerticalMinesweeper : MonoBehaviour {
 			if(!hc.isRevealed){//not yet revealed
 				if (levelData[(int)mouseOffsetPos.x][(int)mouseOffsetPos.y] == 10){//bomb
 					Debug.Log("bomb boom, game over");
-					hc.reveal();//reveal
+					hc.reveal();//reveal	
+
 					showGameOver();
 				}else if (levelData[(int)mouseOffsetPos.x][(int)mouseOffsetPos.y] == 0){//blank tile with no mines near by, need recursive reveal
 					Debug.Log("connected reveal");
@@ -305,5 +308,10 @@ public class HexVerticalMinesweeper : MonoBehaviour {
     }
 	void updateUI(){
 		statusTxt.text=revealedTiles.ToString()+"/"+blankTiles.ToString();
+	}
+	public void ConinueGame()
+    {
+		restartButton_GO.SetActive(false);
+		gameOver = false;
 	}
 }
