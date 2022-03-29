@@ -14,6 +14,7 @@ public class TestSaveGame : MonoBehaviour
         player.currentHealth = SaveSystem.GetInt("currentHealth");
         player.attackMax = SaveSystem.GetInt("attackMax");
         player.attackMin = SaveSystem.GetInt("attackMin");
+        player.maxHealth = SaveSystem.GetInt("maxHealth");
     }
 
     //Save "NEXT"
@@ -22,6 +23,7 @@ public class TestSaveGame : MonoBehaviour
         SaveSystem.SetInt("currentHealth", player.currentHealth);
         SaveSystem.SetInt("attackMax", player.attackMax);
         SaveSystem.SetInt("attackMin", player.attackMin);
+        SaveSystem.SetInt("maxHealth", player.maxHealth);
     }
 
     //Save "NEXT"
@@ -32,6 +34,7 @@ public class TestSaveGame : MonoBehaviour
             SaveSystem.SetInt("currentHealth", player.currentHealth);
             SaveSystem.SetInt("attackMax", player.attackMax);
             SaveSystem.SetInt("attackMin", player.attackMin);
+            SaveSystem.SetInt("maxHealth", player.maxHealth);
         }
     } 
 }

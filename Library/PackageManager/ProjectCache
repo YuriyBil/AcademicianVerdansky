@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637783978683897590
-    m_Hash: 1381578261
+      ticks: 637838368242868875
+    m_Hash: 4245165941
   m_LockFileStatus:
     m_FilePath: C:/Users/Sofia/Documents/GitHub/AcademicianVerdansky/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637783978684007297
-    m_Hash: 3726258150
+      ticks: 637838368242868875
+    m_Hash: 906683032
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
