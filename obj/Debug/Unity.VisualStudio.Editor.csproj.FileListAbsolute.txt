@@ -1,0 +1,2 @@
+D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.VisualStudio.Editor.csproj.AssemblyReference.cache
+D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.VisualStudio.Editor.csproj.CoreCompileInputs.cache
