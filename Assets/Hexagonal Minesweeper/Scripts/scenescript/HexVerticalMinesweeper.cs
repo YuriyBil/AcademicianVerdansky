@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class HexVerticalMinesweeper : MonoBehaviour
 {
     [SerializeField]
+    private Transform _grid;
+    [SerializeField]
     TestSaveGame pasd;
     [SerializeField]
     Player player;
@@ -44,27 +46,178 @@ public class HexVerticalMinesweeper : MonoBehaviour
     //horizontal tile shaped level can be directly used for horizontally aligned hex grid, for vertically aligned, need transposing
     int[][] levelData =
     {
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1}
+// ------------------------------------------------------------
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,0,0,0,0,0,-1,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,0,0,0,0,-1,-1,-1,-1,-1},
+
+        //  new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//---------------------------------------------------------------
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+
+       new int[] {-1,-1,-1,-1,0,0,0,0,0,0,-1,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,-1,-1,0,0,0,0,0,0,-1,-1,-1},
+
+         new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+// -------------------------------------------------------
+    };
+
+    private int[][] _redlevelData =
+   {
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0},
+        // new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
+        // new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        // new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1}
+// ------------------------------------------------------------
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,0,0,0,0,0,-1,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,0,0,0,0,-1,-1,-1,-1,-1},
+
+        //  new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        // new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+//---------------------------------------------------------------
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+// -------------------------------------------------------
+    };
+
+    private int[][] _yellowlevelData =
+{
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+
         new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
-        new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
+        new int[] {-1,-1,-1,0,0,0,0,0,0,0,0,-1,-1},
         new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
-        new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
-        new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
-        new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
-        new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0},
-        new int[] {0,0,0,0,0,0,0,0,0,0,0,0,-1},
-        new int[] {-1,0,0,0,0,0,0,0,0,0,0,0,-1},
-        new int[] {-1,0,0,0,0,0,0,0,0,0,0,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,0,0,0,0,-1},
+
         new int[] {-1,-1,0,0,0,0,0,0,0,0,0,-1,-1},
-        new int[] {-1,-1,0,0,0,0,0,0,0,0,-1,-1,-1},
-        new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1}};
+        new int[] {-1,-1,-1,0,0,0,0,0,0,0,0,-1,-1},
+        new int[] {-1,-1,-1,0,0,0,0,0,0,0,-1,-1,-1},
+
+         new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+    };
+
+    private int[][] _greenlevelData =
+    {
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,0,0,0,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,0,0,0,0,-1,-1,-1,-1,-1,-1},
+
+        new int[] {-1,-1,-1,0,0,0,0,0,-1,-1,-1,-1,-1},
+
+        new int[] {-1,-1,0,0,0,0,0,0,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,0,0,0,0,0,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,0,0,0,0,-1,-1,-1,-1,-1,-1},
+
+         new int[] {-1,-1,-1,-1,0,0,0,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+        new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+    };
 
     void Start()
     {//gets called at launch
-        Camera.main.aspect = 1080.0f / 1920.0f; 
+        Camera.main.aspect = 1080.0f / 1920.0f;
         sideLength = (hexTileHeight / 2) * scaleDownValue;
         revealedTiles = 0;
         questPanel.SetActive(false);
         fightPanel.SetActive(false);//hide
+
+        var difficulty = PlayerPrefs.GetInt("Difficulty");
+        levelData = null;
+
+        if (difficulty == 0)
+        {
+            levelData = _greenlevelData;
+        }
+
+        if (difficulty == 1)
+        {
+            levelData = _yellowlevelData;
+        }
+
+        if (difficulty == 2)
+        {
+            levelData = _redlevelData;
+        }
+
         levelDimensions.x = levelData[0].Length;//column
         levelDimensions.y = levelData.Length;//row (we would transpose this array though)
         createGrid();//create the grid & add bubbles
@@ -102,9 +255,11 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     screenPoint.y += gridOffset.y;
                     //place new hextile
                     hexTile = Instantiate(hexCellPrefab, screenPoint, Quaternion.identity) as GameObject;
+                    hexTile.transform.SetParent(_grid);
                     //we will identify hextile by name
                     hexTile.name = "grid" + i.ToString() + "_" + j.ToString();
                     hexTile.transform.localScale = Vector2.one * scaleDownValue;//scale down to fit
+                                                                                //hexTile.transform.localScale = Vector2.one * scaleDownValue;
                     hc = hexTile.GetComponent<HexCell>();
                     //store the converted axial coordinate inside the hexcell for easier reference
                     hc.axialCoordinate = axialPoint;
@@ -121,6 +276,22 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     }
                 }
             }
+        }
+
+        var difficulty = PlayerPrefs.GetInt("Difficulty");
+
+        if (difficulty == 0)
+        {
+            _grid.transform.position = new Vector2(-270f, -235f);
+        }
+        if (difficulty == 1)
+        {
+            _grid.transform.position = new Vector2(-175, -235f);
+        }
+
+        if (difficulty == 2)
+        {
+            _grid.transform.position = new Vector2(-175, -235f);
         }
     }
     void addMines()
@@ -381,11 +552,11 @@ public class HexVerticalMinesweeper : MonoBehaviour
         return levelDataTranspose;
     }
     public void RestartGame()
-    {//reload to restart
-        SceneManager.LoadScene(0);
+    {
+        SceneManager.LoadScene(0); //reload to restart
     }
 
-    void updateUI()
+    private void updateUI()
     {
         statusTxt.text = revealedTiles.ToString() + "/" + blankTiles.ToString();
     }
@@ -395,12 +566,12 @@ public class HexVerticalMinesweeper : MonoBehaviour
         questPanel.SetActive(false);
         gameOver = false;
     }
-    public void showExpeditionStop()
+    private void showExpeditionStop()
     {
         questPanel.SetActive(true);
         gameOver = true;
     }
-    public void showFight()
+    private void showFight()
     {
         fightPanel.SetActive(true);
         gameOver = true;
@@ -409,5 +580,11 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         fightPanel.SetActive(false);
         gameOver = false;
+    }
+
+    public void LoadMainMenu()
+    {
+        PlayerPrefs.SetInt("FirstStart", 1);
+        SceneManager.LoadScene("MainScreen");
     }
 }

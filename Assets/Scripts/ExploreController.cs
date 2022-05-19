@@ -1,0 +1,75 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class ExploreController : MonoBehaviour
+{
+    [SerializeField] private RectTransform _keyboard;
+    [SerializeField] private RectTransform _exit;
+    [SerializeField] private RectTransform _monitor;
+    [SerializeField] private GameObject _radar;
+    [SerializeField] private Button _yellowButton;
+    [SerializeField] private Button _redButton;
+    [SerializeField] private Button _greenButton;
+
+    // private Vector2 _keyboardPosition;
+    // private Vector2 _exitPosition;
+    // private Vector2 _monitorPosition;
+
+    private void OnEnable()
+    {
+        // _keyboardPosition = new Vector2(_keyboard.localPosition.x, _keyboard.anchoredPosition.y);
+        // _exitPosition = new Vector2(_exit.anchoredPosition.x, _exit.anchoredPosition.y);
+        // _monitorPosition = new Vector2(_monitor.anchoredPosition.x, _monitor.anchoredPosition.y);
+
+        // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x - 2000f, 0.01f).OnComplete(() => MoveElements());
+        // _exit.DOAnchorPosX(_exit.anchoredPosition.x + 2000f, 0.01f);
+        // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y + 2000f, 0.01f);
+
+        _yellowButton.onClick.AddListener(OpenYellowLevel);
+        _redButton.onClick.AddListener(OpenRedLevel);
+        _greenButton.onClick.AddListener(OpenGreenLevel);
+
+        // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x + 2000f, 3f);
+        // _exit.DOAnchorPosX(_exit.anchoredPosition.x - 2000f, 3f);
+        // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y - 2000f, 3f);
+    }
+
+    private void MoveElements()
+    {
+        // _monitor.DOAnchorPos(_monitorPosition, 0.5f).SetEase(Ease.Linear).OnComplete(() => _radar.SetActive(true));
+        // _exit.DOAnchorPos(_exitPosition, 0.5f).SetEase(Ease.Linear);
+        // _keyboard.DOAnchorPos(_keyboardPosition, 0.5f).SetEase(Ease.Linear);
+    }
+
+    private void OnDisable()
+    {
+        // _radar.SetActive(false);
+
+        _yellowButton.onClick.RemoveListener(OpenYellowLevel);
+        _redButton.onClick.RemoveListener(OpenRedLevel);
+        _greenButton.onClick.RemoveListener(OpenGreenLevel);
+    }
+
+    private void OpenGreenLevel()
+    {
+        PlayerPrefs.SetInt("Difficulty", 0);
+        SceneManager.LoadScene("GameScreen");
+    }
+
+    private void OpenYellowLevel()
+    {
+        PlayerPrefs.SetInt("Difficulty", 1);
+        SceneManager.LoadScene("GameScreen");
+    }
+
+    private void OpenRedLevel()
+    {
+        PlayerPrefs.SetInt("Difficulty", 2);
+        SceneManager.LoadScene("GameScreen");
+    }
+}
