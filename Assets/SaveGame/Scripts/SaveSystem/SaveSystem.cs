@@ -31,18 +31,18 @@ public static class SaveSystem {
 
 	static void ReplaceItem(string name, string item)
 	{
-		bool j = false;
-		for(int i = 0; i < data.items.Count; i++)
-		{
-			if(string.Compare(name, data.items[i].Key) == 0)
-			{
-				data.items[i].Value = Crypt(item);
-				j = true;
-				break;
-			}
-		}
+		// bool j = false;
+		// for(int i = 0; i < data.items.Count; i++)
+		// {
+		// 	if(string.Compare(name, data.items[i].Key) == 0)
+		// 	{
+		// 		data.items[i].Value = Crypt(item);
+		// 		j = true;
+		// 		break;
+		// 	}
+		// }
 
-		if(!j) data.AddItem(new SaveData(name, Crypt(item)));
+		// if(!j) data.AddItem(new SaveData(name, Crypt(item)));
 	}
 
 	public static bool HasKey(string name) // check for a key

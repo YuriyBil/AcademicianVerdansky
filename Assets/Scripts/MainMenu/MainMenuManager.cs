@@ -43,6 +43,16 @@ public class MainMenuManager : MonoBehaviour
         }
         else _clouds.SetActive(false);
     }
+
+    // public void SaveInventory()
+    // {
+    //      SaveSystemManager.Save(0);
+    // }
+
+    // public void LoadInventory()
+    // {
+    //     SaveSystemManager.Load(0);
+    // }
 }
 
 public enum GameState
@@ -55,5 +65,8 @@ public enum GameState
     MainMenu,
     Radar,
     FirstScreen,
-    HistoryScreen
+    HistoryScreen,
+    Corridor,
+    Kitchen,
+    BedRoom
 }

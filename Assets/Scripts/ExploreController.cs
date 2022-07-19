@@ -16,6 +16,10 @@ public class ExploreController : MonoBehaviour
     [SerializeField] private Button _redButton;
     [SerializeField] private Button _greenButton;
 
+    [SerializeField] private Button _oneButton;
+    [SerializeField] private Button _twoButton;
+    [SerializeField] private Button _threeButton;
+
     // private Vector2 _keyboardPosition;
     // private Vector2 _exitPosition;
     // private Vector2 _monitorPosition;
@@ -33,6 +37,9 @@ public class ExploreController : MonoBehaviour
         _yellowButton.onClick.AddListener(OpenYellowLevel);
         _redButton.onClick.AddListener(OpenRedLevel);
         _greenButton.onClick.AddListener(OpenGreenLevel);
+        _oneButton.onClick.AddListener(OpenGreenLevel);
+        _twoButton.onClick.AddListener(OpenYellowLevel);
+        _threeButton.onClick.AddListener(OpenRedLevel);
 
         // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x + 2000f, 3f);
         // _exit.DOAnchorPosX(_exit.anchoredPosition.x - 2000f, 3f);
@@ -53,6 +60,9 @@ public class ExploreController : MonoBehaviour
         _yellowButton.onClick.RemoveListener(OpenYellowLevel);
         _redButton.onClick.RemoveListener(OpenRedLevel);
         _greenButton.onClick.RemoveListener(OpenGreenLevel);
+        _oneButton.onClick.RemoveListener(OpenGreenLevel);
+        _twoButton.onClick.RemoveListener(OpenYellowLevel);
+        _threeButton.onClick.RemoveListener(OpenRedLevel);
     }
 
     private void OpenGreenLevel()

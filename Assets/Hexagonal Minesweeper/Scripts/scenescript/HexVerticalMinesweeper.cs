@@ -206,16 +206,19 @@ public class HexVerticalMinesweeper : MonoBehaviour
         if (difficulty == 0)
         {
             levelData = _greenlevelData;
+            gridOffset = new Vector2(-650f,-850f);
         }
 
         if (difficulty == 1)
         {
             levelData = _yellowlevelData;
+            gridOffset = new Vector2(-550f,-900f);
         }
 
         if (difficulty == 2)
         {
             levelData = _redlevelData;
+            gridOffset = new Vector2(-550f,-850f);
         }
 
         levelDimensions.x = levelData[0].Length;//column
@@ -255,7 +258,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     screenPoint.y += gridOffset.y;
                     //place new hextile
                     hexTile = Instantiate(hexCellPrefab, screenPoint, Quaternion.identity) as GameObject;
-                    hexTile.transform.SetParent(_grid);
+                   // hexTile.transform.SetParent(_grid);
                     //we will identify hextile by name
                     hexTile.name = "grid" + i.ToString() + "_" + j.ToString();
                     hexTile.transform.localScale = Vector2.one * scaleDownValue;//scale down to fit
@@ -278,21 +281,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             }
         }
 
-        var difficulty = PlayerPrefs.GetInt("Difficulty");
-
-        if (difficulty == 0)
-        {
-            _grid.transform.position = new Vector2(-270f, -235f);
-        }
-        if (difficulty == 1)
-        {
-            _grid.transform.position = new Vector2(-175, -235f);
-        }
-
-        if (difficulty == 2)
-        {
-            _grid.transform.position = new Vector2(-175, -235f);
-        }
+        
     }
     void addMines()
     {
@@ -359,12 +348,12 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {//mouse down/tap down
-            touchPosition = Input.mousePosition;//store position and time
+            touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);//store position and time
             touchTime = Time.timeSinceLevelLoad;
         }
         if (Input.GetMouseButtonUp(0))
         {//mouse release/tap up
-            float distance = Vector2.Distance(Input.mousePosition, touchPosition);
+            float distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), touchPosition);
             float holdTime = Time.timeSinceLevelLoad - touchTime;
             if (distance < 10)
             {
