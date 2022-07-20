@@ -193,32 +193,70 @@ public class HexVerticalMinesweeper : MonoBehaviour
     };
 
     void Start()
-    {//gets called at launch
+    {
+        PlayerPrefs.SetInt("Difficulty", 0);
+        ResetAllParams();
+    }
+
+    public void LoadFieldEasy()
+    {
+        PlayerPrefs.SetInt("Difficulty", 0);
+        DestroyOldField();
+        ResetAllParams();
+    }
+
+    public void LoadFieldMiddle()
+    {
+        PlayerPrefs.SetInt("Difficulty", 1);
+        DestroyOldField();
+        ResetAllParams();
+    }
+
+    public void LoadFieldHard()
+    {
+        PlayerPrefs.SetInt("Difficulty", 2);
+        DestroyOldField();
+        ResetAllParams();
+    }
+
+    private void DestroyOldField()
+    {
+        foreach (Transform go in _grid)
+        {
+            Destroy(go.gameObject);
+        }
+    }
+
+
+    void ResetAllParams()
+    {
+        //gets called at launch
         Camera.main.aspect = 1080.0f / 1920.0f;
         sideLength = (hexTileHeight / 2) * scaleDownValue;
         revealedTiles = 0;
         questPanel.SetActive(false);
         fightPanel.SetActive(false);//hide
 
+    
         var difficulty = PlayerPrefs.GetInt("Difficulty");
         levelData = null;
 
         if (difficulty == 0)
         {
             levelData = _greenlevelData;
-            gridOffset = new Vector2(-650f,-850f);
+            gridOffset = new Vector2(-650f, -850f);
         }
 
         if (difficulty == 1)
         {
             levelData = _yellowlevelData;
-            gridOffset = new Vector2(-550f,-900f);
+            gridOffset = new Vector2(-550f, -900f);
         }
 
         if (difficulty == 2)
         {
             levelData = _redlevelData;
-            gridOffset = new Vector2(-550f,-850f);
+            gridOffset = new Vector2(-550f, -850f);
         }
 
         levelDimensions.x = levelData[0].Length;//column
@@ -258,7 +296,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     screenPoint.y += gridOffset.y;
                     //place new hextile
                     hexTile = Instantiate(hexCellPrefab, screenPoint, Quaternion.identity) as GameObject;
-                   // hexTile.transform.SetParent(_grid);
+                    hexTile.transform.SetParent(_grid);
+                    // hexTile.transform.SetParent(_grid);
                     //we will identify hextile by name
                     hexTile.name = "grid" + i.ToString() + "_" + j.ToString();
                     hexTile.transform.localScale = Vector2.one * scaleDownValue;//scale down to fit
@@ -281,7 +320,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             }
         }
 
-        
+
     }
     void addMines()
     {
