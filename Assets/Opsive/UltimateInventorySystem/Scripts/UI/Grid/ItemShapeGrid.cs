@@ -23,9 +23,9 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             PerSlot, //Navigate the shape grid slot by slot.
             Custom   //Doesn't change the navigation.
         }
-        
+
         [Tooltip("The item shape grid data ID, used to get the grid data from the inventory at runtime.")]
-        [SerializeField] protected int m_ItemShapeGridDataID;
+        [SerializeField] internal protected int m_ItemShapeGridDataID;
         [Tooltip("The Grid size in units.")]
         [SerializeField] protected Vector2Int m_GridSize = new Vector2Int(8, 8);
         [Tooltip("The item shape size or cell size (in pixel).")]
@@ -50,11 +50,12 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         public ItemShapeGridData ItemShapeGridData => m_ItemShapeGridData;
         public Vector2 ItemShapeSize => m_ItemShapeSize;
 
-        public ItemViewSlot ItemViewSlotPrefab {
+        public ItemViewSlot ItemViewSlotPrefab
+        {
             get => m_ItemViewSlotPrefab;
             set => m_ItemViewSlotPrefab = value;
         }
-        
+
         public ItemShapeNavigation NavigationType
         {
             get => m_NavigationType;
@@ -74,33 +75,38 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             if (m_IsInitialized && !force) { return; }
 
             m_ForegroundItemViews = new List<ItemView>();
-            
-            if (m_ItemViewDrawer == null) {
+
+            if (m_ItemViewDrawer == null)
+            {
                 m_ItemViewDrawer = GetComponent<ItemViewDrawer>();
             }
             m_ItemViewDrawer.Initialize(force);
 
-            if (m_GridLayoutGroup == null) {
+            if (m_GridLayoutGroup == null)
+            {
                 m_GridLayoutGroup = m_ItemViewDrawer.Content.GetComponent<GridLayoutGroup>();
             }
 
             var itemViewSlotAmount = m_ItemViewDrawer.ViewSlots.Length;
 
-            if (itemViewSlotAmount != GridFullSize) {
+            if (itemViewSlotAmount != GridFullSize)
+            {
                 Debug.LogError(
                     $"The number of Item View Slots in the Content '{itemViewSlotAmount}', does not match the grid size '{GridFullSize}'");
             }
 
             m_ItemViewSlots = new ItemViewSlot[itemViewSlotAmount];
-            for (int i = 0; i < itemViewSlotAmount; i++) {
+            for (int i = 0; i < itemViewSlotAmount; i++)
+            {
                 var boxSlot = m_ItemViewDrawer.ViewSlots[i] as ItemViewSlot;
-                if (boxSlot == null) {
+                if (boxSlot == null)
+                {
                     Debug.LogWarning("The item view slot container must use ItemViewSlots and not IViewSlots");
                 }
 
                 m_ItemViewSlots[i] = boxSlot;
             }
-            
+
             var dragHandler = GetComponent<ItemViewSlotDragHandler>();
             if (dragHandler != null) { dragHandler.OnDragStarted += HandleItemViewSlotBeginDrag; }
 
@@ -112,21 +118,26 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// </summary>
         protected override void OnInventoryBound()
         {
-            if (m_ItemShapeGridData == null && m_Inventory != null) {
+            if (m_ItemShapeGridData == null && m_Inventory != null)
+            {
                 var gridsShapeController = m_Inventory.GetComponent<ItemShapeGridController>();
 
-                if (gridsShapeController != null) {
+                if (gridsShapeController != null)
+                {
                     m_ItemShapeGridData = gridsShapeController.GetGridDataWithID(m_ItemShapeGridDataID);
-                } else { Debug.LogWarning("The inventory is missing a ItemShapesGridsController component."); }
+                }
+                else { Debug.LogWarning("The inventory is missing a ItemShapesGridsController component."); }
             }
 
-            if (m_ItemShapeGridData == null) {
+            if (m_ItemShapeGridData == null)
+            {
                 Debug.LogError("The Item Shape Grid data is null.");
                 return;
             }
 
             // Make sure the grid size is the same TODO resize the UI grid to match!?
-            if (m_GridSize != m_ItemShapeGridData.GridSize) {
+            if (m_GridSize != m_ItemShapeGridData.GridSize)
+            {
                 Debug.LogError(
                     "The grid size of the Inventory Grid (on the Grid gameobject) and the Inventory Grid Item Shape Data (on the Inventory gameobject) does not match!",
                     gameObject);
@@ -156,17 +167,22 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
             var gridContentTransform = m_GridLayoutGroup.transform;
             var childCount = gridContentTransform.childCount;
-            for (int i = childCount - 1; i >= 0; i--) {
+            for (int i = childCount - 1; i >= 0; i--)
+            {
                 var child = gridContentTransform.GetChild(i).gameObject;
-                if (Application.isPlaying) {
+                if (Application.isPlaying)
+                {
                     Destroy(child);
-                } else {
+                }
+                else
+                {
                     DestroyImmediate(child);
                 }
             }
 
             var fullSize = GridFullSize;
-            for (int i = 0; i < fullSize; i++) {
+            for (int i = 0; i < fullSize; i++)
+            {
                 Instantiate(m_ItemViewSlotPrefab, Vector3.zero, Quaternion.identity, gridContentTransform);
             }
         }
@@ -227,12 +243,14 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         public override bool CanAddItem(ItemInfo itemInfo, int index)
         {
             var canAddBase = base.CanAddItem(itemInfo, index);
-            if (canAddBase == false) { return false; }
+            
+            var gridDataCollection = m_ItemShapeGridData.GetItemCollectionToAddItemTo(itemInfo);
 
-            if (Inventory.CanAddItem(itemInfo, null) == null) { return false; }
+            if (Inventory.CanAddItem(itemInfo, gridDataCollection) == null) { return false; }
 
             var itemPos = m_ItemShapeGridData.OneDTo2D(index);
-            if (m_ItemShapeGridData.IsPositionAvailable(itemInfo, itemPos) == false) {
+            if (m_ItemShapeGridData.IsPositionAvailable(itemInfo, itemPos) == false)
+            {
                 return false;
             }
 
@@ -290,7 +308,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             var foregroundViewCount = 0;
             var gridFullSize = m_GridSize.x * m_GridSize.y;
-            for (int i = 0; i < gridFullSize; i++) {
+            for (int i = 0; i < gridFullSize; i++)
+            {
                 var gridElementData = m_ItemShapeGridData.GetElementAt(i);
 
                 //Set/Draw Items in the background. Used to know which items view slot are set.
@@ -303,7 +322,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
                 ItemShapeItemView backgroundItemShapeView = itemView.gameObject.GetCachedComponent<ItemShapeItemView>();
 
-                if (backgroundItemShapeView == null) {
+                if (backgroundItemShapeView == null)
+                {
                     Debug.LogError("The Item Views must have an Item Shape Item View component when using a Item Shape Grid.", gameObject);
                     continue;
                 }
@@ -311,7 +331,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
                 backgroundItemShapeView.SetGridInfo(this, i, false);
 
                 //Draw Item in the foreground. Visual item which overflows on multiple slots.
-                if (gridElementData.IsAnchor == false) {
+                if (gridElementData.IsAnchor == false)
+                {
                     continue;
                 }
 
@@ -320,8 +341,10 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             }
 
             // Remove all the excessive Foreground Item Views.
-            for (int i = foregroundViewCount; i < m_ForegroundItemViews.Count; i++) {
-                if (m_ForegroundItemViews[i] != null) {
+            for (int i = foregroundViewCount; i < m_ForegroundItemViews.Count; i++)
+            {
+                if (m_ForegroundItemViews[i] != null)
+                {
                     ObjectPool.Destroy(m_ForegroundItemViews[i]);
                     m_ForegroundItemViews[i] = null;
                 }
@@ -343,27 +366,33 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
             ItemView view = null;
             var viewPrefab = GetViewPrefabFor(itemInfo);
-            
-            if (viewIndex >= 0 && viewIndex < m_ForegroundItemViews.Count && m_ForegroundItemViews[viewIndex] != null) {
+
+            if (viewIndex >= 0 && viewIndex < m_ForegroundItemViews.Count && m_ForegroundItemViews[viewIndex] != null)
+            {
                 // A view already exists.
                 var currentView = m_ForegroundItemViews[viewIndex];
-                if (viewPrefab == ObjectPool.GetOriginalObject(currentView.gameObject)) {
+                if (viewPrefab == ObjectPool.GetOriginalObject(currentView.gameObject))
+                {
                     view = currentView;
-                } else {
+                }
+                else
+                {
                     ObjectPool.Destroy(currentView.gameObject);
                     m_ForegroundItemViews[viewIndex] = null;
                 }
             }
 
-            if (view == null) {
+            if (view == null)
+            {
                 var viewGO = ObjectPool.Instantiate(viewPrefab, m_ItemShapeViewContent);
                 view = viewGO.GetComponent<ItemView>();
 
-                if (view == null) {
+                if (view == null)
+                {
                     Debug.LogWarning("The Box Drawer BoxUI Prefab does not have a BoxUI component or it is not of the correct Type");
                     return;
                 }
-                
+
                 view.RectTransform.anchorMax = new Vector2(0, 1);
                 view.RectTransform.anchorMin = new Vector2(0, 1);
                 view.RectTransform.pivot = new Vector2(0, 1);
@@ -379,9 +408,12 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             foregroundItemShapeView.SetGridInfo(this, gridIndex, true);
             backgroundItemShapeView.ForegroundItemView = foregroundItemShapeView;
 
-            if (viewIndex >= m_ForegroundItemViews.Count) {
+            if (viewIndex >= m_ForegroundItemViews.Count)
+            {
                 m_ForegroundItemViews.Insert(viewIndex, view);
-            } else {
+            }
+            else
+            {
                 m_ForegroundItemViews[viewIndex] = view;
             }
         }
@@ -404,7 +436,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             if (m_ItemShapeGridData == null) { return; }
 
-            if (m_ItemShapeGridData.TryFindAnchorForItem(eventdata.ItemView.ItemInfo, out var anchorPos) == false) {
+            if (m_ItemShapeGridData.TryFindAnchorForItem(eventdata.ItemView.ItemInfo, out var anchorPos) == false)
+            {
                 return;
             }
 
@@ -412,8 +445,10 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
             var modules = m_SlotCursor.FloatingItemView.Modules;
 
-            for (int i = 0; i < modules.Count; i++) {
-                if (modules[i] is ItemShapeItemView itemShapeItemView) {
+            for (int i = 0; i < modules.Count; i++)
+            {
+                if (modules[i] is ItemShapeItemView itemShapeItemView)
+                {
                     itemShapeItemView.DiscreteOffsetImage(anchorPos - itemSlotPos);
                 }
             }
@@ -426,7 +461,7 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             NavigationType = ItemShapeNavigation.PerItem;
         }
-        
+
         /// <summary>
         /// Set the navigation type.
         /// </summary>
@@ -434,7 +469,7 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             NavigationType = ItemShapeNavigation.PerSlot;
         }
-        
+
         /// <summary>
         /// Set the navigation type.
         /// </summary>
@@ -448,21 +483,24 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// </summary>
         protected virtual void UpdateNavigation()
         {
-            if (m_NavigationType == ItemShapeNavigation.Custom) {
+            if (m_NavigationType == ItemShapeNavigation.Custom)
+            {
                 return;
             }
 
-            if (m_NavigationType == ItemShapeNavigation.PerSlot) {
+            if (m_NavigationType == ItemShapeNavigation.PerSlot)
+            {
                 SetGridLayoutGroupNavigation(m_GridLayoutGroup, false);
                 return;
             }
 
-            if (m_NavigationType == ItemShapeNavigation.PerItem) {
+            if (m_NavigationType == ItemShapeNavigation.PerItem)
+            {
                 SetNavigationPerItem(m_GridLayoutGroup);
                 return;
             }
         }
-        
+
         /// <summary>
         /// Set the grid layout group navigation.
         /// </summary>
@@ -472,27 +510,32 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             Vector2Int gridSize = Vector2Int.zero;
 
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.Flexible) {
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.Flexible)
+            {
                 return;
             }
 
             var gridParent = gridLayoutGroup.transform;
-            
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedColumnCount) {
+
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedColumnCount)
+            {
                 gridSize = new Vector2Int(gridLayoutGroup.constraintCount,
                     gridParent.childCount / gridLayoutGroup.constraintCount);
             }
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedRowCount) {
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedRowCount)
+            {
                 gridSize = new Vector2Int(gridParent.childCount / gridLayoutGroup.constraintCount,
                     gridLayoutGroup.constraintCount);
             }
 
             var horizontalStartAxis = gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Horizontal;
-            
+
             // Go through all the anchors first
-            for (int i = 0; i < gridSize.y; i++) {
-                for (int j = 0; j < gridSize.x; j++) {
-                   
+            for (int i = 0; i < gridSize.y; i++)
+            {
+                for (int j = 0; j < gridSize.x; j++)
+                {
+
                     var index = horizontalStartAxis ?
                         i * gridSize.x + j :
                         j * gridSize.y + i;
@@ -502,9 +545,9 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
                     var navigation = currentItemViewSlot.navigation;
                     navigation.mode = Navigation.Mode.Explicit;
-                    
-                    navigation.selectOnUp =  GetAnchorSlotInDirection(Vector2Int.up,  j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
-                    navigation.selectOnDown =  GetAnchorSlotInDirection(Vector2Int.down, j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
+
+                    navigation.selectOnUp = GetAnchorSlotInDirection(Vector2Int.up, j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
+                    navigation.selectOnDown = GetAnchorSlotInDirection(Vector2Int.down, j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
                     navigation.selectOnLeft = GetAnchorSlotInDirection(Vector2Int.left, j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
                     navigation.selectOnRight = GetAnchorSlotInDirection(Vector2Int.right, j, i, horizontalStartAxis, gridSize, currentItemViewSlot);
 
@@ -513,20 +556,23 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             }
 
             // Go through all the non-anchors and copy the anchors navigation
-            for (int i = 0; i < gridSize.y; i++) {
-                for (int j = 0; j < gridSize.x; j++) {
-                   
+            for (int i = 0; i < gridSize.y; i++)
+            {
+                for (int j = 0; j < gridSize.x; j++)
+                {
+
                     var index = horizontalStartAxis ?
                         i * gridSize.x + j :
                         j * gridSize.y + i;
-                    
+
                     var currentItemViewSlot = m_ItemViewSlots[index];
                     var itemShapeView = currentItemViewSlot.ItemView.gameObject.GetCachedComponent<ItemShapeItemView>();
                     if (itemShapeView.IsAnchor) { continue; }
-                    
+
                     var anchorIndex = itemShapeView.AnchorIndex;
 
-                    if (anchorIndex < 0 || anchorIndex >= m_ItemViewSlots.Length) {
+                    if (anchorIndex < 0 || anchorIndex >= m_ItemViewSlots.Length)
+                    {
                         continue;
                     }
 
@@ -555,33 +601,40 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// <returns>The anchor Item View Slot above the current position.</returns>
         private ItemViewSlot GetAnchorSlotInDirection(Vector2Int direction, int x, int y, bool startHorizontal, Vector2Int gridSize, ItemViewSlot exception)
         {
-            if (direction == Vector2Int.zero) {
+            if (direction == Vector2Int.zero)
+            {
                 Debug.LogWarning("Searching in not direction is not allowed");
                 return null;
             }
-            
-            while ( y >= 0 && y < gridSize.y && x >= 0 && x < gridSize.x) {
-                
-                var index = startHorizontal?
-                    y * gridSize.x + x:
+
+            while (y >= 0 && y < gridSize.y && x >= 0 && x < gridSize.x)
+            {
+
+                var index = startHorizontal ?
+                    y * gridSize.x + x :
                     x * gridSize.y + y;
-                
-                if (index < 0 || index >= m_ItemViewSlots.Length) {
+
+                if (index < 0 || index >= m_ItemViewSlots.Length)
+                {
                     continue;
                 }
-                
-                if (TryGetAnchorItemViewSlot(index, out var viewSlot) && viewSlot != exception) {
+
+                if (TryGetAnchorItemViewSlot(index, out var viewSlot) && viewSlot != exception)
+                {
                     return viewSlot;
                 }
 
-                if (startHorizontal) {
-                    x += direction.x;
-                    y -= direction.y;
-                } else {
+                if (startHorizontal)
+                {
                     x += direction.x;
                     y -= direction.y;
                 }
-                
+                else
+                {
+                    x += direction.x;
+                    y -= direction.y;
+                }
+
             }
 
             return null;
@@ -596,7 +649,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// <returns>True if it exists.</returns>
         private bool TryGetAnchorItemViewSlot(int index, out ItemViewSlot itemViewSlot)
         {
-            if (index < 0 || index >= m_ItemViewSlots.Length) {
+            if (index < 0 || index >= m_ItemViewSlots.Length)
+            {
                 itemViewSlot = null;
                 return false;
             }
@@ -606,7 +660,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
             var anchorIndex = itemShapeView.AnchorIndex;
 
-            if (anchorIndex < 0 || anchorIndex >= m_ItemViewSlots.Length) {
+            if (anchorIndex < 0 || anchorIndex >= m_ItemViewSlots.Length)
+            {
                 itemViewSlot = null;
                 return false;
             }
@@ -624,23 +679,28 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         {
             Vector2Int gridSize = Vector2Int.zero;
 
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.Flexible) {
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.Flexible)
+            {
                 return;
             }
 
             var gridParent = gridLayoutGroup.transform;
-            
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedColumnCount) {
+
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedColumnCount)
+            {
                 gridSize = new Vector2Int(gridLayoutGroup.constraintCount,
                     gridParent.childCount / gridLayoutGroup.constraintCount);
             }
-            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedRowCount) {
+            if (gridLayoutGroup.constraint == GridLayoutGroup.Constraint.FixedRowCount)
+            {
                 gridSize = new Vector2Int(gridParent.childCount / gridLayoutGroup.constraintCount,
                     gridLayoutGroup.constraintCount);
             }
 
-            for (int i = 0; i < gridSize.y; i++) {
-                for (int j = 0; j < gridSize.x; j++) {
+            for (int i = 0; i < gridSize.y; i++)
+            {
+                for (int j = 0; j < gridSize.x; j++)
+                {
 
                     var nextChildIndex = -1;
                     var previousXIndex = -1;
@@ -648,13 +708,16 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
                     bool noWrapX = false;
                     bool noWrapY = false;
 
-                    if (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Horizontal) {
+                    if (gridLayoutGroup.startAxis == GridLayoutGroup.Axis.Horizontal)
+                    {
                         nextChildIndex = i * gridSize.x + j;
                         previousXIndex = i * gridSize.x + (j - 1);
                         previousYIndex = (i - 1) * gridSize.x + j;
                         noWrapX = !gridWrap && j == 0;
                         noWrapY = false;
-                    } else {
+                    }
+                    else
+                    {
                         nextChildIndex = j * gridSize.y + i;
                         previousXIndex = (j - 1) * gridSize.y + i;
                         previousYIndex = j * gridSize.y + (i - 1);
@@ -663,7 +726,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
                     }
 
 
-                    if (TryGetSelectableChild(gridParent, nextChildIndex, out var selectable)) {
+                    if (TryGetSelectableChild(gridParent, nextChildIndex, out var selectable))
+                    {
 
                         TryGetSelectableChild(gridParent, previousXIndex, out var previousX);
                         if (noWrapX) { previousX = null; }
@@ -680,13 +744,15 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
                         selectable.navigation = navigation;
 
-                        if (previousX != null) {
+                        if (previousX != null)
+                        {
                             var previousNavigation = previousX.navigation;
                             previousNavigation.selectOnRight = selectable;
                             previousX.navigation = previousNavigation;
                         }
 
-                        if (previousY != null) {
+                        if (previousY != null)
+                        {
                             var previousNavigation = previousY.navigation;
                             previousNavigation.selectOnDown = selectable;
                             previousY.navigation = previousNavigation;
@@ -696,29 +762,31 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             }
         }
 
-         /// <summary>
-         /// Try to get the selectable at the index provided.
-         /// </summary>
-         /// <param name="gridParent">The grid parent transform.</param>
-         /// <param name="index">The index.</param>
-         /// <param name="selectable">The selectable output.</param>
-         /// <returns>True if it exists.</returns>
-         private bool TryGetSelectableChild(Transform gridParent, int index, out Selectable selectable)
-         {
-             if (index < 0 || index >= gridParent.childCount) {
-                 selectable = null;
-                 return false;
-             }
+        /// <summary>
+        /// Try to get the selectable at the index provided.
+        /// </summary>
+        /// <param name="gridParent">The grid parent transform.</param>
+        /// <param name="index">The index.</param>
+        /// <param name="selectable">The selectable output.</param>
+        /// <returns>True if it exists.</returns>
+        private bool TryGetSelectableChild(Transform gridParent, int index, out Selectable selectable)
+        {
+            if (index < 0 || index >= gridParent.childCount)
+            {
+                selectable = null;
+                return false;
+            }
 
-             var child = gridParent.GetChild(index);
-             if (child.gameObject.activeSelf == false) {
-                 selectable = null;
-                 return false;
-             }
+            var child = gridParent.GetChild(index);
+            if (child.gameObject.activeSelf == false)
+            {
+                selectable = null;
+                return false;
+            }
 
-             selectable = gridParent.GetChild(index).GetComponent<Selectable>();
-             return selectable != null;
-         }
+            selectable = gridParent.GetChild(index).GetComponent<Selectable>();
+            return selectable != null;
+        }
 
     }
 }

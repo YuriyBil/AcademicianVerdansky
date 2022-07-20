@@ -23,6 +23,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         [Tooltip("The attribute name for the shape attribute.")]
         [SerializeField] protected string m_ShapeAttributeName = "Shape";
 
+        [Tooltip("Prints a warning if an item can be part of multiple grids.")]
+        [SerializeField] protected bool m_WarnIfMultipleMatch;
         protected Inventory m_Inventory;
 
         public Inventory Inventory => m_Inventory;
@@ -39,7 +41,8 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
 
             RetrieveItemShapeGridData();
 
-            for (int i = 0; i < m_ItemShapeGridData.Count; i++) {
+            for (int i = 0; i < m_ItemShapeGridData.Count; i++)
+            {
                 var gridShapeHandler = m_ItemShapeGridData[i];
 
                 gridShapeHandler.Initialize(this);
@@ -55,16 +58,18 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         public void RetrieveItemShapeGridData()
         {
             var localItemShapeGridDatas = GetComponents<ItemShapeGridData>();
-            for (int i = 0; i < localItemShapeGridDatas.Length; i++) {
+            for (int i = 0; i < localItemShapeGridDatas.Length; i++)
+            {
                 var localItemShapeGridData = localItemShapeGridDatas[i];
                 var foundMatch = false;
-                for (int j = 0; j < m_ItemShapeGridData.Count; j++) {
+                for (int j = 0; j < m_ItemShapeGridData.Count; j++)
+                {
                     if (localItemShapeGridData != m_ItemShapeGridData[j]) { continue; }
 
                     foundMatch = true;
                     break;
                 }
-                if(foundMatch){continue;}
+                if (foundMatch) { continue; }
                 m_ItemShapeGridData.Add(localItemShapeGridData);
             }
         }
@@ -76,8 +81,10 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// <returns>The Grid data for that ID.</returns>
         public ItemShapeGridData GetGridDataWithID(int id)
         {
-            for (int i = 0; i < m_ItemShapeGridData.Count; i++) {
-                if (m_ItemShapeGridData[i].ID == id) {
+            for (int i = 0; i < m_ItemShapeGridData.Count; i++)
+            {
+                if (m_ItemShapeGridData[i].ID == id)
+                {
                     return m_ItemShapeGridData[i];
                 }
             }
@@ -127,12 +134,14 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
                 new ItemInfo(itemInfoPreview.ItemAmount, receivingCollection, itemInfoPreview.ItemStack);
             var gridData = GetPotentialGridDataForItem(previewItemInfo, receivingCollection);
 
-            if (gridData == null) {
+            if (gridData == null)
+            {
                 if (m_NoGridAddItem) { return itemInfo; }
                 return null;
             }
 
-            if (gridData.TryFindAvailablePosition(itemInfoPreview, out var position)) {
+            if (gridData.TryFindAvailablePosition(itemInfoPreview, out var position))
+            {
                 return itemInfo;
             }
 
@@ -179,27 +188,38 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
         /// <returns>The item shape grid data.</returns>
         protected virtual ItemShapeGridData GetGridDataForItemInternal(ItemInfo itemInfo, ItemCollection receivingCollection, bool getPotential)
         {
-            if (itemInfo.Item == null) {
+            if (itemInfo.Item == null)
+            {
                 return null;
             }
-            
+
             var index = -1;
-            for (int i = 0; i < m_ItemShapeGridData.Count; i++) {
-                if (getPotential) {
+            for (int i = 0; i < m_ItemShapeGridData.Count; i++)
+            {
+                if (getPotential)
+                {
                     if (!m_ItemShapeGridData[i].CanAddItem(itemInfo, receivingCollection)) { continue; }
-                } else {
+                }
+                else
+                {
                     if (!m_ItemShapeGridData[i].IsItemValidForGridData(itemInfo)) { continue; }
                 }
 
-                if (index != -1) {
-                    Debug.LogWarning(
-                        $"The inventory has multiple grids which could contain the same item '{itemInfo}', this can cause many types of issues.");
+                if (index != -1)
+                {
+                    if (m_WarnIfMultipleMatch)
+                    {
+                        Debug.LogWarning(
+                            $"The inventory has multiple grids which could contain the same item '{itemInfo}', this can cause many types of issues.");
+                    }
+                    continue;
                 }
 
                 index = i;
             }
 
-            if (index == -1) {
+            if (index == -1)
+            {
                 var ignoreCollection = IsCollectionIgnored(itemInfo.ItemCollection) || IsCollectionIgnored(receivingCollection);
 
                 if (!m_NoGridAddItem && !ignoreCollection) { Debug.LogWarning($"No Grid Data was found for the item '{itemInfo}' with a receiving collection {receivingCollection}."); }
@@ -222,13 +242,14 @@ namespace Opsive.UltimateInventorySystem.UI.Grid
             return itemCollection.Purpose == ItemCollectionPurpose.Hide ||
                    itemCollection.Purpose == ItemCollectionPurpose.Loadout;
         }
-        
+
         /// <summary>
         /// Cleanup the Inventory Grid Indexer every frame.
         /// </summary>
         protected virtual void LateUpdate()
         {
-            for (int i = 0; i < m_ItemShapeGridData.Count; i++) {
+            for (int i = 0; i < m_ItemShapeGridData.Count; i++)
+            {
                 m_ItemShapeGridData[i].Cleanup();
             }
         }

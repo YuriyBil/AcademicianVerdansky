@@ -123,54 +123,53 @@ namespace Opsive.UltimateInventorySystem.Editor.Managers.UIDesigner
             return true;
         }
 
-        protected override ItemShapeGrid BuildInternal()
+       protected override ItemShapeGrid BuildInternal()
         {
             var inventory = m_InventoryField.value as Inventory;
-
             //Create Shape Grid Data and Controller
             var itemShapeGridController = inventory.GetComponent<ItemShapeGridController>();
             if (itemShapeGridController == null) {
                 itemShapeGridController = inventory.gameObject.AddComponent<ItemShapeGridController>();
                 itemShapeGridController.m_ItemShapeGridData = new List<ItemShapeGridData>();
             }
-
+            // Find a grid ID that is not already taken.
+            var existingGridDatas = itemShapeGridController.m_ItemShapeGridData;
+            var gridID = 0;
+            if (existingGridDatas != null) {
+                for (int i = 0; i < existingGridDatas.Count; i++) {
+                    if (gridID != existingGridDatas[i].ID) { continue; }
+                    gridID++;
+                    i = 0;
+                }
+            }
             var itemShapeData = inventory.gameObject.AddComponent<ItemShapeGridData>();
+            itemShapeData.m_ID = gridID;
             itemShapeData.m_GridSize = m_GridSize.value;
-
             itemShapeData.m_ItemCollections = new string[] {m_ItemCollectionField.value};
             itemShapeGridController.m_ItemShapeGridData.Add(itemShapeData);
-
             //Create UI Grid
             var rectParent = m_ParentTransform.value as RectTransform;
-
             var panelOption = (InventoryGridDisplayPanelOption)m_PanelOption.value;
             var displayPanel = UIDesignerManager.InstantiateSchemaPrefab<DisplayPanel>(UIDesignerSchema.GetPanelPrefab(panelOption), rectParent);
             displayPanel.SetName(m_PanelName.value);
             displayPanel.gameObject.name = m_PanelName.value;
-
             if (panelOption == InventoryGridDisplayPanelOption.MainMenu) {
                 UIDesignerManager.GetTab<MainMenuDesigner>().AddInnerPanel(m_PanelName.value, displayPanel);
             }
-
             var itemShapeGrid = UIDesignerManager.InstantiateSchemaPrefab<ItemShapeGrid>(
                 UIDesignerSchema.ItemShapeGrid, displayPanel.MainContent);
-
+            itemShapeGrid.m_ItemShapeGridDataID = gridID;
             var drawer = itemShapeGrid.gameObject.GetComponent<ItemViewDrawer>();
             drawer.CategoryItemViewSet = UIDesignerSchema.ItemShapeCategoryItemViewSet;
-
             itemShapeGrid.ItemViewSlotPrefab = UIDesignerSchema.ItemShapeViewSlot;
-
             itemShapeGrid.SetGridSize(m_GridSize.value, false);
             SetItemShapeSize(itemShapeGrid, m_ItemShapeSize.value);
             itemShapeGrid.SetGridSize(m_GridSize.value, true);
-
             itemShapeGrid.SetName(m_ItemViewSlotContainerName.value);
             itemShapeGrid.gameObject.name = m_ItemViewSlotContainerName.value;
-
             var itemContainerPanelBinding = displayPanel.gameObject.AddComponent<ItemViewSlotsContainerPanelBinding>();
             itemContainerPanelBinding.ItemViewSlotsContainer = itemShapeGrid;
             itemContainerPanelBinding.Inventory = inventory;
-
             return itemShapeGrid;
         }
 
