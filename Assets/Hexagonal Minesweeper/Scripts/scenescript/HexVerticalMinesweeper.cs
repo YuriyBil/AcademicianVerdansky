@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
+using UnityEditor;
 
 public class HexVerticalMinesweeper : MonoBehaviour
 {
@@ -192,6 +194,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
         new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
     };
 
+    //public GameObject hexGrid;
+
     void Start()
     {
         PlayerPrefs.SetInt("Difficulty", 0);
@@ -237,7 +241,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
         questPanel.SetActive(false);
         fightPanel.SetActive(false);//hide
 
-    
+
         var difficulty = PlayerPrefs.GetInt("Difficulty");
         levelData = null;
 
@@ -263,6 +267,9 @@ public class HexVerticalMinesweeper : MonoBehaviour
         levelDimensions.y = levelData.Length;//row (we would transpose this array though)
         createGrid();//create the grid & add bubbles
         updateUI();//set UI values
+
+        CreateSimplePrefab();
+
     }
     void createGrid()
     {
@@ -296,13 +303,15 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     screenPoint.y += gridOffset.y;
                     //place new hextile
                     hexTile = Instantiate(hexCellPrefab, screenPoint, Quaternion.identity) as GameObject;
+
                     hexTile.transform.SetParent(_grid);
-                    // hexTile.transform.SetParent(_grid);
+
                     //we will identify hextile by name
                     hexTile.name = "grid" + i.ToString() + "_" + j.ToString();
                     hexTile.transform.localScale = Vector2.one * scaleDownValue;//scale down to fit
                                                                                 //hexTile.transform.localScale = Vector2.one * scaleDownValue;
                     hc = hexTile.GetComponent<HexCell>();
+                    hc.setRandomBaseColor();
                     //store the converted axial coordinate inside the hexcell for easier reference
                     hc.axialCoordinate = axialPoint;
                     hc.setVertical();//we are dealing with vertically aligned hexagonal grid, so need to rotate
@@ -319,7 +328,6 @@ public class HexVerticalMinesweeper : MonoBehaviour
                 }
             }
         }
-
 
     }
     void addMines()
@@ -614,5 +622,14 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("FirstStart", 1);
         SceneManager.LoadScene("MainScreen");
+    }
+
+    void CreateSimplePrefab()
+    {
+        GameObject instance = Instantiate(_grid.gameObject);
+        string localPath = "Assets/test_pref.prefab";
+        // localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+
+        PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
     }
 }
