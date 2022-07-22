@@ -249,7 +249,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
 
         var difficulty = PlayerPrefs.GetInt("Difficulty");
-        string localPath = "Assets/grid_prefab_" + difficulty + ".prefab";
+        string localPath = "Assets/Resources/grid_prefab_" + difficulty + ".prefab";
         levelData = null;
 
         if (difficulty == 0)
@@ -641,7 +641,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     void CreateSimplePrefab(string localPath)
     {
         instance = Instantiate(_grid.gameObject);
-        // PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
+        //PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
     }
 
     void DestroyOldPrefab()
