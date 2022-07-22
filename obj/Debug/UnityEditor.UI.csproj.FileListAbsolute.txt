@@ -1,2 +1,0 @@
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\UnityEditor.UI.csproj.AssemblyReference.cache
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\UnityEditor.UI.csproj.CoreCompileInputs.cache

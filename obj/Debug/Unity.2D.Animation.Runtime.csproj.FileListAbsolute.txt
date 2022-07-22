@@ -1,2 +1,0 @@
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.2D.Animation.Runtime.csproj.AssemblyReference.cache
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.2D.Animation.Runtime.csproj.CoreCompileInputs.cache

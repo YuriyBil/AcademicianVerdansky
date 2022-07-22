@@ -1,1 +1,0 @@
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.Mathematics.Editor.csproj.CoreCompileInputs.cache
