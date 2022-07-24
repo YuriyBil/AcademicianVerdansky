@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 6e6e9f868a0a2493ebbcee78b1d8342a
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 0
+=======
+guid: 5d9e8f45fcb477f4196c0b7f47a69000
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+>>>>>>> 8ae25025 (add inventory items)
   userData: 
   assetBundleName: 
   assetBundleVariant: 

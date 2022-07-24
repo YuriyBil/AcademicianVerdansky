@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 622e3e11dba304bb1a2036bee3a7cd38
+=======
+guid: d112642d302a8e9458e93c2e30e20d78
+>>>>>>> 8ae25025 (add inventory items)
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
