@@ -1,2 +1,0 @@
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.PlasticSCM.Editor.csproj.AssemblyReference.cache
-D:\Jobe\TestGames\AcademicianVerdansky\obj\Debug\Unity.PlasticSCM.Editor.csproj.CoreCompileInputs.cache
