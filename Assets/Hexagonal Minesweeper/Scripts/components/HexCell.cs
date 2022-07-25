@@ -8,8 +8,6 @@ public class HexCell : MonoBehaviour
     public Color baseMarkedColor;
     public Color baseMineColor;
 
-    public Color[] colorBank;
-
     public Color baseRevealedColor;
     public Color borderColor;
     public Color baseHiddenColor;
@@ -73,17 +71,5 @@ public class HexCell : MonoBehaviour
     void setBaseColor(Color c)
     {
         hexBase_SR.color = c;
-    }
-    public void setRandomBaseColor()
-    {
-        if (colorBank.Length == 0)
-        {
-            return;
-        }
-
-        int num = Random.Range(0, colorBank.Length);
-        Color currentColor = colorBank[num];
-
-        setBaseColor(currentColor);
     }
 }

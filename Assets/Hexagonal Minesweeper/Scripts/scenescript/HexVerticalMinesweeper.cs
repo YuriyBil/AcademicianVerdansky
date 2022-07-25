@@ -22,6 +22,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
                                     //UI elements
     public GameObject questPanel;
     public GameObject fightPanel;
+    public GameObject instance;
     public Text statusTxt;
 
     //User defined vars
@@ -30,6 +31,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     public Sprite[] innerSprites;//reference to the sprites to be shown inside the cells. 0 is blank 7 is bomb
     public float scaleDownValue = 1;//scale value to scale down the hexagonal tile to fit screen
     public float timeToRegisterHold;//time to determine if a tap is a tap+hold
+
 
     //internal vars
     float sideLength;//this is the lendth of one side of the hexagon or the length of a corner to centre of the hexagon
@@ -206,6 +208,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 0);
         DestroyOldField();
+        DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -213,6 +216,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 1);
         DestroyOldField();
+        DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -220,6 +224,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 2);
         DestroyOldField();
+        DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -243,6 +248,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
 
         var difficulty = PlayerPrefs.GetInt("Difficulty");
+        string localPath = "Assets/grid_prefab_" + difficulty + ".prefab";
         levelData = null;
 
         if (difficulty == 0)
@@ -262,13 +268,20 @@ public class HexVerticalMinesweeper : MonoBehaviour
             levelData = _redlevelData;
             gridOffset = new Vector2(-550f, -850f);
         }
-
-        levelDimensions.x = levelData[0].Length;//column
-        levelDimensions.y = levelData.Length;//row (we would transpose this array though)
-        createGrid();//create the grid & add bubbles
-        updateUI();//set UI values
-
-        CreateSimplePrefab();
+        Object gridPrefab = Resources.Load(localPath);
+        if (gridPrefab == null)
+        {
+            levelDimensions.x = levelData[0].Length;//column
+            levelDimensions.y = levelData.Length;//row (we would transpose this array though)
+            createGrid();//create the grid & add bubbles
+            CreateSimplePrefab(localPath);
+            DestroyOldField();
+            updateUI();//set UI values  
+        }
+        else
+        {
+            _grid = Instantiate(gridPrefab) as Transform;
+        }
 
     }
     void createGrid()
@@ -311,7 +324,6 @@ public class HexVerticalMinesweeper : MonoBehaviour
                     hexTile.transform.localScale = Vector2.one * scaleDownValue;//scale down to fit
                                                                                 //hexTile.transform.localScale = Vector2.one * scaleDownValue;
                     hc = hexTile.GetComponent<HexCell>();
-                    hc.setRandomBaseColor();
                     //store the converted axial coordinate inside the hexcell for easier reference
                     hc.axialCoordinate = axialPoint;
                     hc.setVertical();//we are dealing with vertically aligned hexagonal grid, so need to rotate
@@ -624,12 +636,18 @@ public class HexVerticalMinesweeper : MonoBehaviour
         SceneManager.LoadScene("MainScreen");
     }
 
-    void CreateSimplePrefab()
+    void CreateSimplePrefab(string localPath)
     {
-        GameObject instance = Instantiate(_grid.gameObject);
-        string localPath = "Assets/test_pref.prefab";
-        // localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+        //string localPath = "Assets/grid_prefab_" + dif + ".prefab";
 
+        instance = Instantiate(_grid.gameObject);
+        AssetDatabase.GenerateUniqueAssetPath(localPath);
         PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
     }
+
+    void DestroyOldPrefab()
+    {
+        Destroy(instance);
+    }
+
 }
