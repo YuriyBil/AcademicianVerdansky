@@ -29,6 +29,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     public Vector2 gridOffset;//position of the full grid
     public int numMines;//this value should not be higher than number of blank tiles
     public Sprite[] innerSprites;//reference to the sprites to be shown inside the cells. 0 is blank 7 is bomb
+
     public float scaleDownValue = 1;//scale value to scale down the hexagonal tile to fit screen
     public float timeToRegisterHold;//time to determine if a tap is a tap+hold
 
@@ -269,6 +270,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             gridOffset = new Vector2(-550f, -850f);
         }
         Object gridPrefab = Resources.Load(localPath);
+
         if (gridPrefab == null)
         {
             levelDimensions.x = levelData[0].Length;//column
@@ -638,11 +640,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
     void CreateSimplePrefab(string localPath)
     {
-        //string localPath = "Assets/grid_prefab_" + dif + ".prefab";
-
         instance = Instantiate(_grid.gameObject);
-        AssetDatabase.GenerateUniqueAssetPath(localPath);
-        PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
+        // PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
     }
 
     void DestroyOldPrefab()

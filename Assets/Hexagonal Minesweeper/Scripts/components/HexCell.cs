@@ -21,6 +21,7 @@ public class HexCell : MonoBehaviour
     public SpriteRenderer inner_SR;
     public SpriteRenderer hexBase_SR;
     public Sprite innerSprite;//inner image to be set via code
+
     public Sprite flagSprite;//the flag image
 
     // Use this for initialization
