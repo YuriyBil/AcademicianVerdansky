@@ -68,5 +68,6 @@ public enum GameState
     HistoryScreen,
     Corridor,
     Kitchen,
-    BedRoom
+    BedRoom,
+    KitchenInventory
 }
