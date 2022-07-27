@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Hexagonal Minesweeper/Sprites/large 01.png.meta
-guid: 9a7ea080095a141ff85cbde6000ce5de
-========
-guid: 50abfcd57a140bf48977c21c600eb58e
->>>>>>>> master:Assets/Texture/Kitchen/Fridge 04.png.meta
+guid: 2371e0423eb3440b79e07fc28e8a6fc2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
