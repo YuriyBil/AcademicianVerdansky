@@ -208,7 +208,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 0);
         DestroyOldField();
-        DestroyOldPrefab();
+        // DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -216,7 +216,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 1);
         DestroyOldField();
-        DestroyOldPrefab();
+        // DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -224,7 +224,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 2);
         DestroyOldField();
-        DestroyOldPrefab();
+        // DestroyOldPrefab();
         ResetAllParams();
     }
 
@@ -248,7 +248,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
 
         var difficulty = PlayerPrefs.GetInt("Difficulty");
-        int randomNum = RandomNumbers(1, 6);
+        int randomNum = RandomNumbers(1, 7);
         string localPath = "level_" + difficulty + "_" + randomNum;
         levelData = null;
 
@@ -275,6 +275,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
         var gridPrefab = Resources.Load(localPath);
 
+        print(gridPrefab);
+
         if (gridPrefab == null)
         {
             levelDimensions.x = levelData[0].Length;//column
@@ -286,9 +288,9 @@ public class HexVerticalMinesweeper : MonoBehaviour
         }
         else
         {
-            _grid = Instantiate(gridPrefab) as Transform;
+            GameObject prefabCopy = Instantiate(gridPrefab) as GameObject;
+            prefabCopy.transform.SetParent(_grid);
         }
-
     }
     void createGrid()
     {
@@ -507,10 +509,6 @@ public class HexVerticalMinesweeper : MonoBehaviour
             showFight();
             Debug.Log("fightRoom");
         }
-
-
-
-
     }
 
     void revealConnectedTiles(HexCell hc)
