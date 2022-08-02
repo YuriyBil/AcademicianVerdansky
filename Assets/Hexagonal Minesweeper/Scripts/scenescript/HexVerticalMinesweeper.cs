@@ -200,9 +200,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
     void Start()
     {
-        layerPrefs.SetInt("Difficulty", 0);
+        PlayerPrefs.SetInt("Difficulty", 0);
         ResetAllParams();
-        print("fatal");
     }
 
     public void LoadFieldEasy()
@@ -257,19 +256,23 @@ public class HexVerticalMinesweeper : MonoBehaviour
         {
             levelData = _greenlevelData;
             gridOffset = new Vector2(-650f, -850f);
+            blankTiles = 10;
         }
 
         if (difficulty == 1)
         {
             levelData = _yellowlevelData;
             gridOffset = new Vector2(-550f, -900f);
+            blankTiles = 38;
         }
 
         if (difficulty == 2)
         {
             levelData = _redlevelData;
             gridOffset = new Vector2(-550f, -850f);
+            blankTiles = 61;
         }
+
         var gridPrefab = Resources.Load(localPath);
 
         if (gridPrefab == null)
