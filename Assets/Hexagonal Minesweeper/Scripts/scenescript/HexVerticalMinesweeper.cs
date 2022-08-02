@@ -249,7 +249,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
 
         var difficulty = PlayerPrefs.GetInt("Difficulty");
-        string localPath = "Assets/Resources/grid_prefab_" + difficulty + ".prefab";
+        string localPath = "grid_prefab_" + difficulty;
         levelData = null;
 
         if (difficulty == 0)
@@ -269,7 +269,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             levelData = _redlevelData;
             gridOffset = new Vector2(-550f, -850f);
         }
-        Object gridPrefab = Resources.Load(localPath);
+        var gridPrefab = Resources.Load(localPath);
 
         if (gridPrefab == null)
         {
