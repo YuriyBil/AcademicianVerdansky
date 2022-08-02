@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+//using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -197,12 +198,11 @@ public class HexVerticalMinesweeper : MonoBehaviour
         new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
     };
 
-    //public GameObject hexGrid;
-
     void Start()
     {
-        PlayerPrefs.SetInt("Difficulty", 0);
+        layerPrefs.SetInt("Difficulty", 0);
         ResetAllParams();
+        print("fatal");
     }
 
     public void LoadFieldEasy()
@@ -249,7 +249,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
 
         var difficulty = PlayerPrefs.GetInt("Difficulty");
-        string localPath = "grid_prefab_" + difficulty;
+        int randomNum = RandomNumbers(1, 6);
+        string localPath = "level_" + difficulty + "_" + randomNum;
         levelData = null;
 
         if (difficulty == 0)
@@ -278,7 +279,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             createGrid();//create the grid & add bubbles
             CreateSimplePrefab(localPath);
             DestroyOldField();
-            updateUI();//set UI values  
+            updateUI();//set UI values 
         }
         else
         {
@@ -641,12 +642,17 @@ public class HexVerticalMinesweeper : MonoBehaviour
     void CreateSimplePrefab(string localPath)
     {
         instance = Instantiate(_grid.gameObject);
-        //PrefabUtility.SaveAsPrefabAssetAndConnect(instance, localPath, InteractionMode.UserAction);
     }
 
     void DestroyOldPrefab()
     {
         Destroy(instance);
+    }
+
+    public int RandomNumbers(int startNum, int endNum)
+    {
+        int randomNum = Random.Range(startNum, endNum);
+        return randomNum;
     }
 
 }
