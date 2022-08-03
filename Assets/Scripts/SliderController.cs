@@ -20,6 +20,24 @@ public class SliderController : MonoBehaviour
     [SerializeField]
     Slider Water;
 
+
+    public static SliderController instanceSliderController = null; // Object instance
+
+    void Awake()
+    {
+        // Checking for the existence of an instance
+        if (instanceSliderController == null)
+        { // Іnstance is exists
+            instanceSliderController = this; // Set a reference to an object instance
+        }
+        else if (instanceSliderController == this)
+        { // An object instance already exists in the scene
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
     private SliderPanelsScript helthPersSlider;
     private SliderPanelsScript energyPersSlider;
     private SliderPanelsScript temperatureSlider;
@@ -29,10 +47,6 @@ public class SliderController : MonoBehaviour
     int ht = 100;
     int p = 10;
 
-    // void Awake()
-    // {
-    //  
-    // }
 
     void Start()
     {
