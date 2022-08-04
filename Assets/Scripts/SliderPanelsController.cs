@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderPanelsScript
+public class SliderPanelsController
 {
     private Slider _slider;
 
@@ -15,11 +15,23 @@ public class SliderPanelsScript
 
     public void SliderSetValue(float param)
     {
-        _slider.value = _slider.value - param;
+        float newValue = _slider.value - param;
+
+        if (newValue <= 0)
+        {
+            newValue = 0;
+        }
+
+        if (newValue >= _slider.maxValue)
+        {
+            newValue = _slider.maxValue;
+        }
+
+        _slider.value = newValue;
     }
 
 
-    public SliderPanelsScript(Slider slider, int maxValue)
+    public SliderPanelsController(Slider slider, int maxValue)
     {
         this._slider = slider;
         SetMaxValue(maxValue);

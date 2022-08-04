@@ -8,9 +8,13 @@ public class HealthBar : MonoBehaviour
     public Player playerHealth;
     public Image imageHealth;
     private Slider slider;
-    void  Awake()
+    void Awake()
     {
-        slider = GetComponent<Slider>();
+        //slider = GetComponent<Slider>();
+        if (SliderPanelsManager.instance == null)
+        {
+            Instantiate(slider);
+        }
     }
 
     // Update is called once per frame
