@@ -13,34 +13,16 @@ public class SliderPanelsScript
         _slider.value = health;
     }
 
-    public void SliderSetValue(int param)
+    public void SliderSetValue(float param)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            _slider.value = _slider.value - param;
-        }
+        _slider.value = _slider.value - param;
     }
 
-    public void SliderSetValueOnTime()
-    {
-        if (isTime)
-        {
-            _slider.value = _slider.value - Time.deltaTime * 10;
-        }
-
-    }
 
     public SliderPanelsScript(Slider slider, int maxValue)
     {
         this._slider = slider;
         SetMaxValue(maxValue);
-    }
-
-    bool isTime = false;
-
-    public void ToggleIsTime()
-    {
-        isTime = !isTime;
     }
 }
 

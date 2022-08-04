@@ -21,16 +21,16 @@ public class SliderController : MonoBehaviour
     Slider Water;
 
 
-    public static SliderController instanceSliderController = null; // Object instance
+    public static SliderController instance = null; // Object instance
 
     void Awake()
     {
         // Checking for the existence of an instance
-        if (instanceSliderController == null)
+        if (instance == null)
         { // Іnstance is exists
-            instanceSliderController = this; // Set a reference to an object instance
+            instance = this; // Set a reference to an object instance
         }
-        else if (instanceSliderController == this)
+        else if (instance == this)
         { // An object instance already exists in the scene
             Destroy(gameObject);
         }
@@ -45,7 +45,9 @@ public class SliderController : MonoBehaviour
     private SliderPanelsScript waterSlider;
 
     int ht = 100;
-    int p = 10;
+    float p = 10f;
+    bool isT = false;
+
 
 
     void Start()
@@ -56,27 +58,59 @@ public class SliderController : MonoBehaviour
         foodSlider = new SliderPanelsScript(Food, ht);
         waterSlider = new SliderPanelsScript(Water, ht);
     }
+
+    void KeyCodeInput()
+    {
+        float tp = Time.deltaTime * 10;
+
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            helthPersSlider.SliderSetValue(-p);
+            energyPersSlider.SliderSetValue(-p);
+            temperatureSlider.SliderSetValue(-p);
+            foodSlider.SliderSetValue(-p);
+            waterSlider.SliderSetValue(-p);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            helthPersSlider.SliderSetValue(p);
+            energyPersSlider.SliderSetValue(p);
+            temperatureSlider.SliderSetValue(p);
+            foodSlider.SliderSetValue(p);
+            waterSlider.SliderSetValue(p);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            isT = !isT;
+            timeDirection = "up";
+        }
+
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            isT = !isT;
+            timeDirection = "down";
+        }
+    }
+    string timeDirection;
     void Update()
     {
-        helthPersSlider.SliderSetValue(p);
-        energyPersSlider.SliderSetValue(p);
-        temperatureSlider.SliderSetValue(p);
-        foodSlider.SliderSetValue(p);
-        waterSlider.SliderSetValue(p);
+        KeyCodeInput();
 
-        helthPersSlider.SliderSetValueOnTime();
-        energyPersSlider.SliderSetValueOnTime();
-        temperatureSlider.SliderSetValueOnTime();
-        foodSlider.SliderSetValueOnTime();
-        waterSlider.SliderSetValueOnTime();
-
-        if (Input.GetKeyDown(KeyCode.W))
+        if (isT)
         {
-            helthPersSlider.ToggleIsTime();
-            energyPersSlider.ToggleIsTime();
-            temperatureSlider.ToggleIsTime();
-            foodSlider.ToggleIsTime();
-            waterSlider.ToggleIsTime();
+            float tp = Time.deltaTime * 10;
+            if (timeDirection == "up")
+            {
+                tp = -tp;
+            }
+            helthPersSlider.SliderSetValue(tp);
+            energyPersSlider.SliderSetValue(tp);
+            temperatureSlider.SliderSetValue(tp);
+            foodSlider.SliderSetValue(tp);
+            waterSlider.SliderSetValue(tp);
         }
     }
 }
