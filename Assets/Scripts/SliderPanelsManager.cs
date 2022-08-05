@@ -20,11 +20,11 @@ public class SliderPanelsManager : MonoBehaviour
     [SerializeField]
     private Slider _water;
 
-    private SliderPanelsController _helthPersSlider;
-    private SliderPanelsController _energyPersSlider;
-    private SliderPanelsController _temperatureSlider;
-    private SliderPanelsController _foodSlider;
-    private SliderPanelsController _waterSlider;
+    public SliderPanelsController HelthPersSlider;
+    public SliderPanelsController EnergyPersSlider;
+    public SliderPanelsController TemperatureSlider;
+    public SliderPanelsController FoodSlider;
+    public SliderPanelsController WaterSlider;
 
     private int _hp = 100;
     private float _dValue = 10f;
@@ -32,21 +32,20 @@ public class SliderPanelsManager : MonoBehaviour
     private string _timeDirection;
 
 
-    public static SliderPanelsManager instance = null; // Object instance
+    public static SliderPanelsManager Instance; // Object instance
 
     void Awake()
     {
         // Checking for the existence of an instance
-        if (instance == null)
+        if (Instance == null)
         { // Іnstance is exists
-            instance = this; // Set a reference to an object instance
+            Instance = this; // Set a reference to an object instance
         }
-        else if (instance == this)
-        { // An object instance already exists in the scene
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
+        // else if (instance == this)
+        // { // An object instance already exists in the scene
+        //     Destroy(gameObject);
+        // }
+        //DontDestroyOnLoad(gameObject);
     }
 
 
@@ -55,43 +54,43 @@ public class SliderPanelsManager : MonoBehaviour
 
     void Start()
     {
-        _helthPersSlider = new SliderPanelsController(_healthPers, _hp);
-        _energyPersSlider = new SliderPanelsController(_energyPers, _hp);
-        _temperatureSlider = new SliderPanelsController(_temperature, _hp);
-        _foodSlider = new SliderPanelsController(_food, _hp);
-        _waterSlider = new SliderPanelsController(_water, _hp);
+        HelthPersSlider = new SliderPanelsController(_healthPers, _hp);
+        EnergyPersSlider = new SliderPanelsController(_energyPers, _hp);
+        TemperatureSlider = new SliderPanelsController(_temperature, _hp);
+        FoodSlider = new SliderPanelsController(_food, _hp);
+        WaterSlider = new SliderPanelsController(_water, _hp);
     }
 
     void KeyCodeInput()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            _helthPersSlider.SliderSetValue(-_dValue);
-            _energyPersSlider.SliderSetValue(-_dValue);
-            _temperatureSlider.SliderSetValue(-_dValue);
-            _foodSlider.SliderSetValue(-_dValue);
-            _waterSlider.SliderSetValue(-_dValue);
+            HelthPersSlider.SliderSetValue(-_dValue);
+            EnergyPersSlider.SliderSetValue(-_dValue);
+            TemperatureSlider.SliderSetValue(-_dValue);
+            FoodSlider.SliderSetValue(-_dValue);
+            WaterSlider.SliderSetValue(-_dValue);
         }
 
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
-            _helthPersSlider.SliderSetValue(_dValue);
-            _energyPersSlider.SliderSetValue(_dValue);
-            _temperatureSlider.SliderSetValue(_dValue);
-            _foodSlider.SliderSetValue(_dValue);
-            _waterSlider.SliderSetValue(_dValue);
-        }
-
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            _isTime = !_isTime;
-            _timeDirection = "up";
+            HelthPersSlider.SliderSetValue(_dValue);
+            EnergyPersSlider.SliderSetValue(_dValue);
+            TemperatureSlider.SliderSetValue(_dValue);
+            FoodSlider.SliderSetValue(_dValue);
+            WaterSlider.SliderSetValue(_dValue);
         }
 
         else if (Input.GetKeyDown(KeyCode.S))
         {
             _isTime = !_isTime;
             _timeDirection = "down";
+        }
+
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            _isTime = !_isTime;
+            _timeDirection = "up";
         }
     }
 
@@ -102,15 +101,15 @@ public class SliderPanelsManager : MonoBehaviour
         if (_isTime)
         {
             float timeParametr = Time.deltaTime * 10;
-            if (_timeDirection == "up")
+            if (_timeDirection == "down")
             {
                 timeParametr = -timeParametr;
             }
-            _helthPersSlider.SliderSetValue(timeParametr);
-            _energyPersSlider.SliderSetValue(timeParametr);
-            _temperatureSlider.SliderSetValue(timeParametr);
-            _foodSlider.SliderSetValue(timeParametr);
-            _waterSlider.SliderSetValue(timeParametr);
+            HelthPersSlider.SliderSetValue(timeParametr);
+            EnergyPersSlider.SliderSetValue(timeParametr);
+            TemperatureSlider.SliderSetValue(timeParametr);
+            FoodSlider.SliderSetValue(timeParametr);
+            WaterSlider.SliderSetValue(timeParametr);
         }
     }
 }

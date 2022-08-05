@@ -5,36 +5,37 @@ using UnityEngine.UI;
 
 public class SliderPanelsController
 {
-    private Slider _slider;
+    public Slider SliderUI;
 
     public void SetMaxValue(int health)
     {
-        _slider.maxValue = health;
-        _slider.value = health;
+        SliderUI.maxValue = health;
+        SliderUI.value = health;
     }
 
     public void SliderSetValue(float param)
     {
-        float newValue = _slider.value - param;
+        float newValue = SliderUI.value + param;
 
         if (newValue <= 0)
         {
             newValue = 0;
         }
 
-        if (newValue >= _slider.maxValue)
+        if (newValue >= SliderUI.maxValue)
         {
-            newValue = _slider.maxValue;
+            newValue = SliderUI.maxValue;
         }
 
-        _slider.value = newValue;
+        SliderUI.value = newValue;
     }
 
 
     public SliderPanelsController(Slider slider, int maxValue)
     {
-        this._slider = slider;
+        this.SliderUI = slider;
         SetMaxValue(maxValue);
     }
+
 }
 
