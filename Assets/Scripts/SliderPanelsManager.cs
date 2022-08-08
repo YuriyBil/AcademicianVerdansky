@@ -41,7 +41,7 @@ public class SliderPanelsManager : MonoBehaviour
         { // Іnstance is exists
             Instance = this; // Set a reference to an object instance
         }
-        // else if (instance == this)
+        // else if (Instance == this)
         // { // An object instance already exists in the scene
         //     Destroy(gameObject);
         // }

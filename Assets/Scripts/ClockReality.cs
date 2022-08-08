@@ -22,6 +22,7 @@ public class ClockReality : MonoBehaviour
 
     private DateTime _time = DateTime.Now;
     private DateTime _timeStart = DateTime.Now;
+    private bool _isClockRunning = false; // to activate ClockReality.Instance.RunClock();
 
     public Button TimeNow;
     public Button TimeDay;
@@ -35,11 +36,14 @@ public class ClockReality : MonoBehaviour
 
     public GameObject Panel;
 
+    public static ClockReality Instance; // Object instance
+
+
     void Start()
     {
         DateTime currentDate = DateTime.Now;
 
-        long temp = Convert.ToInt64(PlayerPrefs.GetString("sysString"));
+        long temp = Convert.ToInt64(PlayerPrefs.GetString("sysString", DateTime.Now.ToBinary().ToString()));
 
         DateTime oldDate = DateTime.FromBinary(temp);
         print("oldDate: " + oldDate);
@@ -53,6 +57,20 @@ public class ClockReality : MonoBehaviour
         {
             DropdownValueChanged(Changing);
         });
+    }
+
+    void Awake()
+    {
+        // Checking for the existence of an instance
+        if (Instance == null)
+        { // Іnstance is exists
+            Instance = this; // Set a reference to an object instance
+        }
+        else if (Instance == this)
+        { // An object instance already exists in the scene
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void DropdownValueChanged(Dropdown change)
@@ -123,7 +141,7 @@ public class ClockReality : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= _nextTime)
+        if (_isClockRunning && Time.time >= _nextTime)
         {
             _time = _time.AddSeconds(1);
             UpdateClock();
@@ -131,6 +149,11 @@ public class ClockReality : MonoBehaviour
             _nextTime += _interval;
         }
 
+    }
+
+    public void RunClock()
+    {
+        _isClockRunning = true;
     }
 
 }
