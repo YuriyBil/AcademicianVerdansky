@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class MainMenuButtons : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private GameState _gameState;
-    // public SliderPanelsManager PanelsManager;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("11111");

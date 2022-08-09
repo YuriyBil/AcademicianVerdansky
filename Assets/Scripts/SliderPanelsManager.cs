@@ -45,7 +45,7 @@ public class SliderPanelsManager : MonoBehaviour
         // { // An object instance already exists in the scene
         //     Destroy(gameObject);
         // }
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -101,10 +101,12 @@ public class SliderPanelsManager : MonoBehaviour
         if (_isTime)
         {
             float timeParametr = Time.deltaTime * 10;
+
             if (_timeDirection == "down")
             {
                 timeParametr = -timeParametr;
             }
+
             HelthPersSlider.SliderSetValue(timeParametr);
             EnergyPersSlider.SliderSetValue(timeParametr);
             TemperatureSlider.SliderSetValue(timeParametr);

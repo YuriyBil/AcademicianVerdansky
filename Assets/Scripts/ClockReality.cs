@@ -70,6 +70,7 @@ public class ClockReality : MonoBehaviour
         { // An object instance already exists in the scene
             Destroy(gameObject);
         }
+
         DontDestroyOnLoad(gameObject);
     }
 
