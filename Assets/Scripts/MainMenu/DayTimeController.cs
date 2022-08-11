@@ -9,16 +9,28 @@ public class DayTimeController : MonoBehaviour
 {
     public List<Sprite> ListSpriteDayTime;
     public Image Image;
-    private int i = 0;
+
     public DateTime CurrentDateTime = DateTime.Now;
 
     public void ChangeBG(DateTime dateTime)
     {
-        if (dateTime.Hour >= 14f)
+        int i = 3;
+        int partOfDay = dateTime.Hour;
+
+        if (partOfDay > 5 && partOfDay <= 9)
         {
-            i++;
-            Image.sprite = ListSpriteDayTime[i];
+            i = 0;
         }
+        else if (partOfDay > 9 && partOfDay <= 17)
+        {
+            i = 1;
+        }
+        else if (partOfDay > 17 && partOfDay <= 21)
+        {
+            i = 2;
+        }
+
+        Image.sprite = ListSpriteDayTime[i];
     }
     void Update()
     {
