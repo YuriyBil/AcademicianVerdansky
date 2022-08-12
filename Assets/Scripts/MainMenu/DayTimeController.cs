@@ -10,22 +10,20 @@ public class DayTimeController : MonoBehaviour
     public List<Sprite> ListSpriteDayTime;
     public Image Image;
 
-    public DateTime CurrentDateTime = DateTime.Now;
-
     public void ChangeBG(DateTime dateTime)
     {
         int i = 3;
         int partOfDay = dateTime.Hour;
 
-        if (partOfDay > 5 && partOfDay <= 9)
+        if (partOfDay >= 5 && partOfDay < 9)
         {
             i = 0;
         }
-        else if (partOfDay > 9 && partOfDay <= 17)
+        else if (partOfDay >= 9 && partOfDay < 17)
         {
             i = 1;
         }
-        else if (partOfDay > 17 && partOfDay <= 21)
+        else if (partOfDay >= 17 && partOfDay < 21)
         {
             i = 2;
         }
@@ -34,7 +32,7 @@ public class DayTimeController : MonoBehaviour
     }
     void Update()
     {
-        ChangeBG(CurrentDateTime);
+        ChangeBG(DateTime.Now);
     }
 
 }
