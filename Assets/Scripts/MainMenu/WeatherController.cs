@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//[RequireComponent(typeof(Image))]
 public class WeatherController : MonoBehaviour
 {
-    public GameObject Snow;
+    public GameObject SnowFall;
+    public GameObject Storm;
+    public GameObject Blizzard;
+
+    public bool isActive = false;
 
     void KeyCodeInput()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Snow.SetActive(true);
+            isActive = !isActive;
+            SnowFall.SetActive(isActive);
         }
-
-        else if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            Snow.SetActive(false);
+            isActive = !isActive;
+            Storm.SetActive(isActive);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isActive = !isActive;
+            Blizzard.SetActive(isActive);
         }
     }
 
