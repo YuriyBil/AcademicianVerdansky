@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class AnimalHouseManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // public Animator NextAnimator;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // public void OnAnimationEnded()
+    // {
+    //     //stop animation 
+    //     GetComponent<Animator>().enabled = false;
+
+    //     //play next animation
+    //     NextAnimator.enabled = true;
+    // }
 }
