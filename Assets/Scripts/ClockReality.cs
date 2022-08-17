@@ -71,7 +71,7 @@ public class ClockReality : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     public void DropdownValueChanged(Dropdown change)

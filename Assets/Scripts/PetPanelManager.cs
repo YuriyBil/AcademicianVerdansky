@@ -34,7 +34,7 @@ public class PetPanelManager : MonoBehaviour
         { // An object instance already exists in the scene
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
 
