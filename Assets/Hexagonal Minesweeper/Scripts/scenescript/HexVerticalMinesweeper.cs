@@ -198,9 +198,10 @@ public class HexVerticalMinesweeper : MonoBehaviour
         new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
     };
 
+
     void Start()
     {
-        PlayerPrefs.SetInt("Difficulty", 0);
+        // PlayerPrefs.SetInt("Difficulty", 0);
         ResetAllParams();
     }
 
