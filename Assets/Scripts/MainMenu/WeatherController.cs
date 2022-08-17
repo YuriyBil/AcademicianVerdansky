@@ -9,29 +9,57 @@ public class WeatherController : MonoBehaviour
     public GameObject Storm;
     public GameObject Blizzard;
 
-    public bool isActive = false;
+    [SerializeField] private Button _snowFall;
+    [SerializeField] private Button _storm;
+    [SerializeField] private Button _blizzard;
 
-    void KeyCodeInput()
+    public bool SnowFallActive = false;
+    public bool StormActive = false;
+    public bool BlizzardActive = false;
+
+    void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            isActive = !isActive;
-            SnowFall.SetActive(isActive);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            isActive = !isActive;
-            Storm.SetActive(isActive);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            isActive = !isActive;
-            Blizzard.SetActive(isActive);
-        }
+        _snowFall.onClick.AddListener(GoSnowFall);
+        _storm.onClick.AddListener(GoStorm);
+        _blizzard.onClick.AddListener(GoBlizzard);
     }
 
-    void Update()
+    void OnDisable()
     {
-        KeyCodeInput();
+        _snowFall.onClick.RemoveListener(GoSnowFall);
+        _storm.onClick.RemoveListener(GoStorm);
+        _blizzard.onClick.RemoveListener(GoBlizzard);
     }
+
+    void GoSnowFall()
+    {
+        StormActive = false;
+        BlizzardActive = false;
+        SnowFallActive = !SnowFallActive;
+        ChangeWeather();
+    }
+
+    void GoStorm()
+    {
+        SnowFallActive = false;
+        BlizzardActive = false;
+        StormActive = !StormActive;
+        ChangeWeather();
+    }
+
+    void GoBlizzard()
+    {
+        SnowFallActive = false;
+        StormActive = false;
+        BlizzardActive = !BlizzardActive;
+        ChangeWeather();
+    }
+
+    private void ChangeWeather()
+    {
+        Storm.SetActive(StormActive);
+        Blizzard.SetActive(BlizzardActive);
+        SnowFall.SetActive(SnowFallActive);
+    }
+
 }

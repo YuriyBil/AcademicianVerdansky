@@ -10,6 +10,11 @@ public class DayTimeController : MonoBehaviour
     public List<Sprite> ListSpriteDayTime;
     public Image Image;
 
+    public Button Nigtht;
+    public Button Dawn;
+    public Button Day;
+    public Button Dusk;
+
     public void ChangeBG(DateTime dateTime)
     {
         int i = 3;
@@ -30,9 +35,44 @@ public class DayTimeController : MonoBehaviour
 
         Image.sprite = ListSpriteDayTime[i];
     }
+
+    void OnEnable()
+    {
+        Nigtht.onClick.AddListener(GoNight);
+        Dawn.onClick.AddListener(GoDawn);
+        Day.onClick.AddListener(GoDay);
+        Dusk.onClick.AddListener(GoDusk);
+    }
+
+    void GoNight()
+    {
+        ChangeDaySprite(3);
+    }
+
+    void GoDawn()
+    {
+        ChangeDaySprite(0);
+    }
+
+    void GoDay()
+    {
+        ChangeDaySprite(1);
+    }
+
+    void GoDusk()
+    {
+        ChangeDaySprite(2);
+    }
+
+    private void ChangeDaySprite(int i)
+    {
+        Image.sprite = ListSpriteDayTime[i];
+    }
+
     void Update()
     {
-        ChangeBG(DateTime.Now);
+        //ChangeBG(DateTime.Now);
+
     }
 
 }
