@@ -12,6 +12,8 @@ public class ExploreController : MonoBehaviour
     [SerializeField] private RectTransform _exit;
     [SerializeField] private RectTransform _monitor;
     [SerializeField] private GameObject _radar;
+    [SerializeField] private GameObject _confirm;
+
     // [SerializeField] private Button _yellowButton;
     // [SerializeField] private Button _redButton;
     // [SerializeField] private Button _greenButton;
@@ -22,9 +24,12 @@ public class ExploreController : MonoBehaviour
     [SerializeField] private Button _exitButton;
 
     [SerializeField] private Button _chairButton;
+    [SerializeField] private Button _confirmYes;
+    [SerializeField] private Button _confirmNo;
 
     public HexVerticalMinesweeper HexGame;
     public bool RadarActive = false;
+    public bool ConfirmActive = false;
 
     // private Vector2 _keyboardPosition;
     // private Vector2 _exitPosition;
@@ -34,6 +39,13 @@ public class ExploreController : MonoBehaviour
     {
         RadarActive = !RadarActive;
         _radar.SetActive(RadarActive);
+    }
+
+    public void ConfirmOn()
+    {
+        ConfirmActive = !ConfirmActive;
+        _confirm.SetActive(ConfirmActive);
+        RadarOn();
     }
 
     private void OnEnable()
@@ -49,7 +61,9 @@ public class ExploreController : MonoBehaviour
         // _yellowButton.onClick.AddListener(OpenYellowLevel);
         // _redButton.onClick.AddListener(OpenRedLevel);
         // _greenButton.onClick.AddListener(OpenGreenLevel);
-        _oneButton.onClick.AddListener(OpenGreenLevel);
+        _oneButton.onClick.AddListener(ConfirmOn);
+        _confirmYes.onClick.AddListener(OpenGreenLevel);
+        _confirmNo.onClick.AddListener(ConfirmOn);
         _twoButton.onClick.AddListener(OpenYellowLevel);
         _threeButton.onClick.AddListener(OpenRedLevel);
         _exitButton.onClick.AddListener(RadarOn);
@@ -83,20 +97,17 @@ public class ExploreController : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 0);
         SceneManager.LoadScene("GameScreen");
-        Debug.Log("geen");
     }
 
     private void OpenYellowLevel()
     {
         PlayerPrefs.SetInt("Difficulty", 1);
         SceneManager.LoadScene("GameScreen");
-        Debug.Log("yellow");
     }
 
     private void OpenRedLevel()
     {
         PlayerPrefs.SetInt("Difficulty", 2);
         SceneManager.LoadScene("GameScreen");
-        Debug.Log("red");
     }
 }
