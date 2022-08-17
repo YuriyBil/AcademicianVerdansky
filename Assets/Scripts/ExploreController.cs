@@ -69,17 +69,20 @@ public class ExploreController : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 0);
         SceneManager.LoadScene("GameScreen");
+        Debug.Log("geeen");
     }
 
     private void OpenYellowLevel()
     {
         PlayerPrefs.SetInt("Difficulty", 1);
         SceneManager.LoadScene("GameScreen");
+        Debug.Log("yellow");
     }
 
     private void OpenRedLevel()
     {
         PlayerPrefs.SetInt("Difficulty", 2);
         SceneManager.LoadScene("GameScreen");
+        Debug.Log("red");
     }
 }
