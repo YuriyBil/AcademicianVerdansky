@@ -28,8 +28,8 @@ public class ExploreController : MonoBehaviour
     [SerializeField] private Button _confirmNo;
 
     public HexVerticalMinesweeper HexGame;
-    public bool RadarActive = false;
-    public bool ConfirmActive = false;
+
+    public GameObject LevelText;
 
     // private Vector2 _keyboardPosition;
     // private Vector2 _exitPosition;
@@ -37,61 +37,90 @@ public class ExploreController : MonoBehaviour
 
     public void RadarOn()
     {
-        RadarActive = !RadarActive;
-        _radar.SetActive(RadarActive);
+        _radar.SetActive(true);
     }
 
-    public void ConfirmOn()
+    public void RadarOff()
     {
-        ConfirmActive = !ConfirmActive;
-        _confirm.SetActive(ConfirmActive);
-        RadarOn();
+        _radar.SetActive(false);
     }
 
-    private void OnEnable()
+    public void ConfirmOff()
     {
-        // _keyboardPosition = new Vector2(_keyboard.localPosition.x, _keyboard.anchoredPosition.y);
-        // _exitPosition = new Vector2(_exit.anchoredPosition.x, _exit.anchoredPosition.y);
-        // _monitorPosition = new Vector2(_monitor.anchoredPosition.x, _monitor.anchoredPosition.y);
-
-        // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x - 2000f, 0.01f).OnComplete(() => MoveElements());
-        // _exit.DOAnchorPosX(_exit.anchoredPosition.x + 2000f, 0.01f);
-        // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y + 2000f, 0.01f);
-
-        // _yellowButton.onClick.AddListener(OpenYellowLevel);
-        // _redButton.onClick.AddListener(OpenRedLevel);
-        // _greenButton.onClick.AddListener(OpenGreenLevel);
-        _oneButton.onClick.AddListener(ConfirmOn);
-        _confirmYes.onClick.AddListener(OpenGreenLevel);
-        _confirmNo.onClick.AddListener(ConfirmOn);
-        _twoButton.onClick.AddListener(OpenYellowLevel);
-        _threeButton.onClick.AddListener(OpenRedLevel);
-        _exitButton.onClick.AddListener(RadarOn);
-        _chairButton.onClick.AddListener(RadarOn);
-
-        // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x + 2000f, 3f);
-        // _exit.DOAnchorPosX(_exit.anchoredPosition.x - 2000f, 3f);
-        // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y - 2000f, 3f);
+        _confirm.SetActive(false);
     }
 
-    private void MoveElements()
+    public void ConfirmOn(int level)
     {
-        // _monitor.DOAnchorPos(_monitorPosition, 0.5f).SetEase(Ease.Linear).OnComplete(() => _radar.SetActive(true));
-        // _exit.DOAnchorPos(_exitPosition, 0.5f).SetEase(Ease.Linear);
-        // _keyboard.DOAnchorPos(_keyboardPosition, 0.5f).SetEase(Ease.Linear);
+        _confirm.SetActive(true);
+        _radar.SetActive(false);
+
+        if (level == 1)
+        {
+            LevelText.GetComponent<Text>().text = "Green level. Start?";
+            _confirmYes.onClick.AddListener(OpenGreenLevel);
+            _confirmNo.onClick.AddListener(RadarOn);
+        }
+        else if (level == 2)
+        {
+            LevelText.GetComponent<Text>().text = "Yellow level. Start?";
+            _confirmYes.onClick.AddListener(OpenYellowLevel);
+            _confirmNo.onClick.AddListener(RadarOn);
+        }
+        else if (level == 3)
+        {
+            LevelText.GetComponent<Text>().text = "Red level. Start?";
+            _confirmYes.onClick.AddListener(OpenRedLevel);
+            _confirmNo.onClick.AddListener(RadarOn);
+        }
     }
 
-    private void OnDisable()
-    {
-        // _radar.SetActive(false);
+    // private void OnEnable()
+    // {
+    //     // _keyboardPosition = new Vector2(_keyboard.localPosition.x, _keyboard.anchoredPosition.y);
+    //     // _exitPosition = new Vector2(_exit.anchoredPosition.x, _exit.anchoredPosition.y);
+    //     // _monitorPosition = new Vector2(_monitor.anchoredPosition.x, _monitor.anchoredPosition.y);
 
-        // _yellowButton.onClick.RemoveListener(OpenYellowLevel);
-        // _redButton.onClick.RemoveListener(OpenRedLevel);
-        // _greenButton.onClick.RemoveListener(OpenGreenLevel);
-        _oneButton.onClick.RemoveListener(OpenGreenLevel);
-        _twoButton.onClick.RemoveListener(OpenYellowLevel);
-        _threeButton.onClick.RemoveListener(OpenRedLevel);
-    }
+    //     // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x - 2000f, 0.01f).OnComplete(() => MoveElements());
+    //     // _exit.DOAnchorPosX(_exit.anchoredPosition.x + 2000f, 0.01f);
+    //     // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y + 2000f, 0.01f);
+
+    //     // _yellowButton.onClick.AddListener(OpenYellowLevel);
+    //     // _redButton.onClick.AddListener(OpenRedLevel);
+    //     // _greenButton.onClick.AddListener(OpenGreenLevel);
+
+    //     //_oneButton.onClick.AddListener(ConfirmOn);
+    //     //_confirmYes.onClick.AddListener(OpenGreenLevel);
+    //     //_confirmNo.onClick.AddListener(ConfirmOn);
+
+    //     //_twoButton.onClick.AddListener(OpenYellowLevel);
+    //     //_threeButton.onClick.AddListener(OpenRedLevel);
+    //     //_exitButton.onClick.AddListener(RadarOff);
+    //     //_chairButton.onClick.AddListener(RadarOn);
+
+    //     // _keyboard.DOAnchorPosX(_keyboard.anchoredPosition.x + 2000f, 3f);
+    //     // _exit.DOAnchorPosX(_exit.anchoredPosition.x - 2000f, 3f);
+    //     // _monitor.DOAnchorPosY(_monitor.anchoredPosition.y - 2000f, 3f);
+    // }
+
+    // // private void MoveElements()
+    // // {
+    // //     // _monitor.DOAnchorPos(_monitorPosition, 0.5f).SetEase(Ease.Linear).OnComplete(() => _radar.SetActive(true));
+    // //     // _exit.DOAnchorPos(_exitPosition, 0.5f).SetEase(Ease.Linear);
+    // //     // _keyboard.DOAnchorPos(_keyboardPosition, 0.5f).SetEase(Ease.Linear);
+    // // }
+
+    // // private void OnDisable()
+    // // {
+    // //     // _radar.SetActive(false);
+
+    // //     // _yellowButton.onClick.RemoveListener(OpenYellowLevel);
+    // //     // _redButton.onClick.RemoveListener(OpenRedLevel);
+    // //     // _greenButton.onClick.RemoveListener(OpenGreenLevel);
+    // //     // _oneButton.onClick.RemoveListener(OpenGreenLevel);
+    // //     // _twoButton.onClick.RemoveListener(OpenYellowLevel);
+    // //     // _threeButton.onClick.RemoveListener(OpenRedLevel);
+    // // }
 
     private void OpenGreenLevel()
     {
