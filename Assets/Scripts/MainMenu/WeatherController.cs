@@ -13,6 +13,7 @@ public class WeatherController : MonoBehaviour
     [SerializeField] private Button _storm;
     [SerializeField] private Button _blizzard;
 
+
     public bool SnowFallActive = false;
     public bool StormActive = false;
     public bool BlizzardActive = false;
@@ -60,6 +61,13 @@ public class WeatherController : MonoBehaviour
         Storm.SetActive(StormActive);
         Blizzard.SetActive(BlizzardActive);
         SnowFall.SetActive(SnowFallActive);
+    }
+
+    public void CancelWeather()
+    {
+        Storm.SetActive(false);
+        Blizzard.SetActive(false);
+        SnowFall.SetActive(false);
     }
 
 }
