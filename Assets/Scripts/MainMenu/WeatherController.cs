@@ -19,6 +19,7 @@ public class WeatherController : MonoBehaviour
     public bool StormActive = false;
     public bool BlizzardActive = false;
 
+
     private void Awake()
     {
         if (Instance == null)

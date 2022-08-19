@@ -15,6 +15,8 @@ public class Texting : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _dusk;
     [SerializeField] private TextMeshProUGUI _medNight;
     [SerializeField] private TextMeshProUGUI _medDay;
+    [SerializeField] private Button _snow;
+    //public Color tintColor;
     void Start()
     {
         _snowFall.text = "SnowFall";
@@ -26,6 +28,16 @@ public class Texting : MonoBehaviour
         _dusk.text = "Dusk";
         _medNight.text = "Night";
         _medDay.text = "Day";
+
+        // TextMeshPro _snow   = GetComponent<TextMeshPro>();
+        //_snowFall.color = new Color32(255, 128, 0, 255);
+
+        var colors = _snow.GetComponent<Button>().colors;
+        colors.normalColor = Color.red;
+        _snow.GetComponent<Button>().colors = colors;
+        //_snow.colors = colors;
+
+        //_snow.color = new Color32(255, 128, 0, 255);
     }
 
     // void Update()
