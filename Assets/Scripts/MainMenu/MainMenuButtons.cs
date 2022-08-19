@@ -9,7 +9,10 @@ public class MainMenuButtons : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("11111");
         MainMenuManager.Instance.OpenScreen(_gameState);
+        WeatherController.Instance.CancelWeather();
     }
+
+
     void Update()
     {
         SliderPanelsManager.Instance.HelthPersSlider.SliderSetValue(-Time.deltaTime);

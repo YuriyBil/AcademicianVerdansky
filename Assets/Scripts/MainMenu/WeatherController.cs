@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class WeatherController : MonoBehaviour
 {
+    public static WeatherController Instance;
     public GameObject SnowFall;
     public GameObject Storm;
     public GameObject Blizzard;
@@ -17,6 +18,15 @@ public class WeatherController : MonoBehaviour
     public bool SnowFallActive = false;
     public bool StormActive = false;
     public bool BlizzardActive = false;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
 
     void OnEnable()
     {
