@@ -8,13 +8,13 @@ using System;
 public class KitchenCrafting : MonoBehaviour
 {
     public Button StoveOnOff;
-    public Button TumblerButton;
+    public Button ExitButton;
     public GameObject Stove;
 
     void OnEnable()
     {
         StoveOnOff.onClick.AddListener(StoveActivate);
-        TumblerButton.onClick.AddListener(StoveDisactivate);
+        ExitButton.onClick.AddListener(StoveDisactivate);
     }
 
     void StoveActivate()
