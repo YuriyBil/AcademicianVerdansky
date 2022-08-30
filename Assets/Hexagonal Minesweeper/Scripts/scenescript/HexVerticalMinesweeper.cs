@@ -291,6 +291,8 @@ public class HexVerticalMinesweeper : MonoBehaviour
         {
             GameObject prefabCopy = Instantiate(gridPrefab) as GameObject;
             prefabCopy.transform.SetParent(_grid);
+            levelDimensions.x = levelData[0].Length;//column
+            levelDimensions.y = levelData.Length;
         }
     }
     void createGrid()
@@ -418,6 +420,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
         {//mouse down/tap down
             touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);//store position and time
             touchTime = Time.timeSinceLevelLoad;
+            Debug.Log("touch detected!");
         }
         if (Input.GetMouseButtonUp(0))
         {//mouse release/tap up
@@ -429,10 +432,12 @@ public class HexVerticalMinesweeper : MonoBehaviour
                 {
                     //this is a hold
                     markTheTile();//flag the tile
+                    Debug.Log("marking should be..");
                 }
                 else
                 {//this is a tap
                     checkAndReveal();//check the tile under tap & reveal if necessary
+                    Debug.Log("checking should be..");
                 }
             }
         }
@@ -453,13 +458,16 @@ public class HexVerticalMinesweeper : MonoBehaviour
         mouseOffsetPos = HexHelperVertical.axialToOffset(findCubicHexTile());
         if (!validIndexes((int)mouseOffsetPos.x, (int)mouseOffsetPos.y))
         {//end if we are outside the grid
+            Debug.Log("хз хз");
             return;
         }
+        Debug.Log("хз2 хз2");
         if (levelData[(int)mouseOffsetPos.x][(int)mouseOffsetPos.y] != -1)
         {//not invalid area
             tapped = GameObject.Find("grid" + mouseOffsetPos.x.ToString() + "_" + mouseOffsetPos.y.ToString());
             HexCell hc = tapped.GetComponent<HexCell>();
             hc.markBase();//flag it
+            Debug.Log("marking should be detected!");
         }
     }
     void checkAndReveal()
@@ -469,6 +477,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
         mouseOffsetPos = HexHelperVertical.axialToOffset(findCubicHexTile());
         if (!validIndexes((int)mouseOffsetPos.x, (int)mouseOffsetPos.y))
         {//end if we are outside the grid
+            Debug.Log("хзззз хззззз");
             return;
         }
         if (levelData[(int)mouseOffsetPos.x][(int)mouseOffsetPos.y] != -1)
@@ -498,6 +507,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
             }
         }
+        Debug.Log("revialed should be");
         updateUI();//set UI values
     }
 
@@ -615,7 +625,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
     }
     public void RestartGame()
     {
-        SceneManager.LoadScene(0); //reload to restart
+        SceneManager.LoadScene("GameScreen"); //reload to restart
     }
 
     private void updateUI()

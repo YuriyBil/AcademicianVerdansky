@@ -61,12 +61,14 @@ public class HexCell : MonoBehaviour
         }
         inner_SR.sprite = innerSprite;
         isRevealed = true;//set reveal status
+        Debug.Log("reveal detected!");
     }
     public void markBase()
     {//flag the cell as marked
         setBaseColor(baseMarkedColor);
         inner_SR.sprite = flagSprite;//show flag
         isMarked = true;//set marked status
+        Debug.Log("marking detected!");
     }
 
     void setBaseColor(Color c)
