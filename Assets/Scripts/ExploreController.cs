@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class ExploreController : MonoBehaviour
 {
-    [SerializeField] private RectTransform _keyboard;
+    //[SerializeField] private RectTransform _keyboard;
     //[SerializeField] private RectTransform _exit;
-    [SerializeField] private RectTransform _monitor;
+    //[SerializeField] private RectTransform _monitor;
     [SerializeField] private GameObject _radar;
     [SerializeField] private GameObject _confirm;
 
