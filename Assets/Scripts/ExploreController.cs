@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ExploreController : MonoBehaviour
 {
     [SerializeField] private RectTransform _keyboard;
-    [SerializeField] private RectTransform _exit;
+    //[SerializeField] private RectTransform _exit;
     [SerializeField] private RectTransform _monitor;
     [SerializeField] private GameObject _radar;
     [SerializeField] private GameObject _confirm;
@@ -60,18 +60,21 @@ public class ExploreController : MonoBehaviour
             LevelText.GetComponent<Text>().text = "Green level. Start?";
             _confirmYes.onClick.AddListener(OpenGreenLevel);
             _confirmNo.onClick.AddListener(RadarOn);
+            _exitButton.onClick.AddListener(RadarOff);
         }
         else if (level == 2)
         {
             LevelText.GetComponent<Text>().text = "Yellow level. Start?";
             _confirmYes.onClick.AddListener(OpenYellowLevel);
             _confirmNo.onClick.AddListener(RadarOn);
+            _exitButton.onClick.AddListener(RadarOff);
         }
         else if (level == 3)
         {
             LevelText.GetComponent<Text>().text = "Red level. Start?";
             _confirmYes.onClick.AddListener(OpenRedLevel);
             _confirmNo.onClick.AddListener(RadarOn);
+            _exitButton.onClick.AddListener(RadarOff);
         }
     }
 
