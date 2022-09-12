@@ -60,21 +60,21 @@ public class ExploreController : MonoBehaviour
             LevelText.GetComponent<Text>().text = "Green level. Start?";
             _confirmYes.onClick.AddListener(OpenGreenLevel);
             _confirmNo.onClick.AddListener(RadarOn);
-            _exitButton.onClick.AddListener(RadarOff);
+            // _exitButton.onClick.AddListener(RadarOff);
         }
         else if (level == 2)
         {
             LevelText.GetComponent<Text>().text = "Yellow level. Start?";
             _confirmYes.onClick.AddListener(OpenYellowLevel);
             _confirmNo.onClick.AddListener(RadarOn);
-            _exitButton.onClick.AddListener(RadarOff);
+            //_exitButton.onClick.AddListener(RadarOff);
         }
         else if (level == 3)
         {
             LevelText.GetComponent<Text>().text = "Red level. Start?";
             _confirmYes.onClick.AddListener(OpenRedLevel);
             _confirmNo.onClick.AddListener(RadarOn);
-            _exitButton.onClick.AddListener(RadarOff);
+            //_exitButton.onClick.AddListener(RadarOff);
         }
     }
 
@@ -141,5 +141,10 @@ public class ExploreController : MonoBehaviour
     {
         PlayerPrefs.SetInt("Difficulty", 2);
         SceneManager.LoadScene("GameScreen");
+    }
+
+    public void Start()
+    {
+        RadarOff();
     }
 }
