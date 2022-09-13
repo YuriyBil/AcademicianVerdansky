@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 
 public class WeatherController : MonoBehaviour
 {
     public static WeatherController Instance;
-    public GameObject SnowFall;
-    public GameObject Storm;
-    public GameObject Blizzard;
+    public ParticleSystem SnowFall;
+    public VideoPlayer Storm;
+    public VideoClip ClipStorm;
+
+    public GameObject PanelStorm;
+    public ParticleSystem Blizzard;
 
     [SerializeField] private Button _snowFall;
     [SerializeField] private Button _storm;
     [SerializeField] private Button _blizzard;
-
-
-    public bool SnowFallActive = false;
-    public bool StormActive = false;
-    public bool BlizzardActive = false;
 
 
     private void Awake()
@@ -38,47 +37,42 @@ public class WeatherController : MonoBehaviour
 
     void OnDisable()
     {
-        _snowFall.onClick.RemoveListener(GoSnowFall);
-        _storm.onClick.RemoveListener(GoStorm);
-        _blizzard.onClick.RemoveListener(GoBlizzard);
+        _snowFall.onClick.AddListener(CancelWeather);
+        _storm.onClick.AddListener(CancelWeather);
+        _blizzard.onClick.AddListener(CancelWeather);
     }
 
     void GoSnowFall()
     {
-        StormActive = false;
-        BlizzardActive = false;
-        SnowFallActive = !SnowFallActive;
-        ChangeWeather();
+        Storm.Stop();
+        PanelStorm.SetActive(false);
+        Blizzard.Stop();
+        SnowFall.Play();
     }
 
     void GoStorm()
     {
-        SnowFallActive = false;
-        BlizzardActive = false;
-        StormActive = !StormActive;
-        ChangeWeather();
+        Storm.clip = ClipStorm;
+        PanelStorm.SetActive(true);
+        Blizzard.Stop();
+        SnowFall.Stop();
+        Storm.Play();
     }
 
     void GoBlizzard()
     {
-        SnowFallActive = false;
-        StormActive = false;
-        BlizzardActive = !BlizzardActive;
-        ChangeWeather();
-    }
-
-    private void ChangeWeather()
-    {
-        Storm.SetActive(StormActive);
-        Blizzard.SetActive(BlizzardActive);
-        SnowFall.SetActive(SnowFallActive);
+        SnowFall.Stop();
+        Storm.Stop();
+        PanelStorm.SetActive(false);
+        Blizzard.Play();
     }
 
     public void CancelWeather()
     {
-        Storm.SetActive(false);
-        Blizzard.SetActive(false);
-        SnowFall.SetActive(false);
+        Blizzard.Stop();
+        SnowFall.Stop();
+        Storm.Stop();
+        PanelStorm.SetActive(false);
     }
 
 }
