@@ -14,7 +14,6 @@ public class Medicine : MonoBehaviour
     public Button Profile;
     public Button ExitProfile;
 
-    //public VideoPlayer Night;
     public VideoPlayer Day;
     public VideoClip MedDay;
     public VideoClip MedNight;
@@ -46,8 +45,6 @@ public class Medicine : MonoBehaviour
     void ShowProfile()
     {
         ProfileOfPlayer.SetActive(true);
-        // Day.Stop();
-        // Night.Stop();
     }
 
     void CancelShowProfile()
