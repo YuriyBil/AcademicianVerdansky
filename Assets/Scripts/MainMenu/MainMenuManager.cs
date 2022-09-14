@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
     public static MainMenuManager Instance;
-    [SerializeField] private GameObject Laboratory;
-    [SerializeField] private GameObject PetShelter;
-    [SerializeField] private GameObject Hospital;
-    [SerializeField] private GameObject ResourceBase;
-    [SerializeField] private GameObject GameWorld;
+    [SerializeField] private RenderTexture _renderTexture;
     [SerializeField] private GameObject _clouds;
     [SerializeField] private List<ScreenControl> ListScreen;
 
@@ -28,6 +25,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenScreen(GameState _gameState)
     {
+        ClearRenderTexture(_renderTexture);
+
         foreach (ScreenControl go in ListScreen)
         {
             if (go.GetGameState() == _gameState)
@@ -44,15 +43,13 @@ public class MainMenuManager : MonoBehaviour
         else _clouds.SetActive(false);
     }
 
-    // public void SaveInventory()
-    // {
-    //      SaveSystemManager.Save(0);
-    // }
-
-    // public void LoadInventory()
-    // {
-    //     SaveSystemManager.Load(0);
-    // }
+    public void ClearRenderTexture(RenderTexture renderTexture)
+    {
+        RenderTexture rt = RenderTexture.active;
+        RenderTexture.active = renderTexture;
+        GL.Clear(true, true, Color.clear);
+        RenderTexture.active = rt;
+    }
 }
 
 public enum GameState
