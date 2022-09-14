@@ -66,5 +66,6 @@ public enum GameState
     Corridor,
     Kitchen,
     BedRoom,
-    KitchenInventory
+    KitchenInventory,
+    Stove
 }
