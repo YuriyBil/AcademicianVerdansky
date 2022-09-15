@@ -39,7 +39,7 @@ public class WeatherController : MonoBehaviour
     {
         _snowFall.onClick.AddListener(CancelWeather);
         _storm.onClick.AddListener(CancelWeather);
-        _blizzard.onClick.AddListener(CancelWeather);
+        _blizzard.onClick.RemoveListener(CancelWeather);
     }
 
     void GoSnowFall()
@@ -47,7 +47,15 @@ public class WeatherController : MonoBehaviour
         Storm.Stop();
         PanelStorm.SetActive(false);
         Blizzard.Stop();
-        SnowFall.Play();
+
+        if (SnowFall.isPlaying)
+        {
+            SnowFall.Stop();
+        }
+        else
+        {
+            SnowFall.Play();
+        }
     }
 
     void GoStorm()
@@ -56,7 +64,16 @@ public class WeatherController : MonoBehaviour
         PanelStorm.SetActive(true);
         Blizzard.Stop();
         SnowFall.Stop();
-        Storm.Play();
+
+        if (Storm.isPlaying)
+        {
+            Storm.Stop();
+            PanelStorm.SetActive(false);
+        }
+        else
+        {
+            Storm.Play();
+        }
     }
 
     void GoBlizzard()
@@ -64,7 +81,15 @@ public class WeatherController : MonoBehaviour
         SnowFall.Stop();
         Storm.Stop();
         PanelStorm.SetActive(false);
-        Blizzard.Play();
+
+        if (Blizzard.isPlaying)
+        {
+            Blizzard.Stop();
+        }
+        else
+        {
+            Blizzard.Play();
+        }
     }
 
     public void CancelWeather()
