@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using System;
 
 public class DayTimeController : MonoBehaviour
 {
     public List<Sprite> ListSpriteDayTime;
     public Image Image;
+    public GameObject BG;
 
     public Button Nigtht;
     public Button Dawn;
     public Button Day;
     public Button Dusk;
+
+    public VideoPlayer DayAndNight;
+    public VideoClip DawnClip;
+    public VideoClip DayClip;
+    public GameObject PanelDayTime;
 
     public void ChangeBG(DateTime dateTime)
     {
@@ -51,12 +58,20 @@ public class DayTimeController : MonoBehaviour
 
     void GoDawn()
     {
-        ChangeDaySprite(0);
+        BG.SetActive(false);
+        PanelDayTime.SetActive(true);
+        DayAndNight.Stop();
+        DayAndNight.clip = DawnClip;
+        DayAndNight.Play();
     }
 
     void GoDay()
     {
-        ChangeDaySprite(1);
+        BG.SetActive(false);
+        PanelDayTime.SetActive(true);
+        DayAndNight.Stop();
+        DayAndNight.clip = DayClip;
+        DayAndNight.Play();
     }
 
     void GoDusk()
@@ -66,6 +81,8 @@ public class DayTimeController : MonoBehaviour
 
     private void ChangeDaySprite(int i)
     {
+        PanelDayTime.SetActive(false);
+        BG.SetActive(true);
         Image.sprite = ListSpriteDayTime[i];
     }
 
