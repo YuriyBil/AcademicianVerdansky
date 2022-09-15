@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     private Action _endActivateLoadingScreen;
     private Action _endDeActivateLoadingScreen;
     private GameState _currentGameState;
+    private VideoPlayer _currentVideoPlayer;
     private bool isСheckTexture;
 
     private void Awake()
@@ -54,6 +56,14 @@ public class MainMenuManager : MonoBehaviour
             if (go.GetGameState() == _currentGameState)
             {
                 go.gameObject.SetActive(true);
+
+                if (go.GetVideoPlayer() != null)
+                {
+                    _currentVideoPlayer = go.GetVideoPlayer();
+                    _currentVideoPlayer.started += VideoPlayerPlay;
+                }
+
+                else LoadingScreenManager.Instance.DeActivateLoadingScreen(_endDeActivateLoadingScreen);
             }
             else go.gameObject.SetActive(false);
         }
@@ -63,6 +73,15 @@ public class MainMenuManager : MonoBehaviour
             _clouds.SetActive(true);
         }
         else _clouds.SetActive(false);
+
+
+    }
+
+    private void VideoPlayerPlay(VideoPlayer source)
+    {
+        LoadingScreenManager.Instance.DeActivateLoadingScreen(_endDeActivateLoadingScreen);
+        _currentVideoPlayer.started -= VideoPlayerPlay;
+        _currentVideoPlayer = null;
     }
 
     public void ClearRenderTexture(RenderTexture renderTexture)
@@ -71,25 +90,6 @@ public class MainMenuManager : MonoBehaviour
         RenderTexture.active = renderTexture;
         GL.Clear(true, true, Color.clear);
         RenderTexture.active = rt;
-
-        isСheckTexture = true;
-    }
-
-    public void Update()
-    {
-        if (isСheckTexture)
-        {
-            СheckTextureIsCreated();
-        }
-    }
-
-    private void СheckTextureIsCreated()
-    {
-        if (_renderTexture.IsCreated())
-        {
-            isСheckTexture = false;
-            LoadingScreenManager.Instance.DeActivateLoadingScreen(_endDeActivateLoadingScreen);
-        }
     }
 }
 
