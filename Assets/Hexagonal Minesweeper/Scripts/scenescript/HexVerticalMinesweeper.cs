@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-//using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +19,9 @@ public class HexVerticalMinesweeper : MonoBehaviour
     [SerializeField]
     FightRoom fightRoom;
     //prefabs
+
+    public Button _exit;
+
     public GameObject hexCellPrefab;//the hex cell go with hexcell script
                                     //UI elements
     public GameObject questPanel;
@@ -674,6 +677,17 @@ public class HexVerticalMinesweeper : MonoBehaviour
     {
         int randomNum = Random.Range(startNum, endNum);
         return randomNum;
+    }
+
+    void OnEnable()
+    {
+        _exit.onClick.AddListener(Exit);
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("MainScene1");
+        //MainMenuManager.Instance.OpenScreen(GameWorld);
     }
 
 }
