@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (PlayerPrefs.HasKey("FirstStart"))
         {
-            OpenScreen(GameState.MainMenu);
+            OpenScreen(GameState.GameWorld);
             PlayerPrefs.DeleteKey("FirstStart");
         }
     }

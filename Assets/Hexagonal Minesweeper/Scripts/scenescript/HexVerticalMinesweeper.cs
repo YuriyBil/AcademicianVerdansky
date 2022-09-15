@@ -657,10 +657,10 @@ public class HexVerticalMinesweeper : MonoBehaviour
         gameOver = false;
     }
 
-    public void LoadMainMenu()
+    public void LoadExit()
     {
         PlayerPrefs.SetInt("FirstStart", 1);
-        SceneManager.LoadScene("MainScreen");
+        SceneManager.LoadScene("MainScreen 1");
     }
 
     void CreateSimplePrefab(string localPath)
@@ -681,13 +681,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
 
     void OnEnable()
     {
-        _exit.onClick.AddListener(Exit);
-    }
-
-    public void Exit()
-    {
-        SceneManager.LoadScene("MainScene1");
-        //MainMenuManager.Instance.OpenScreen(GameWorld);
+        _exit.onClick.AddListener(LoadExit);
     }
 
 }
