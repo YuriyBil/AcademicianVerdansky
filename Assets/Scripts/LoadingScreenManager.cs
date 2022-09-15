@@ -7,6 +7,7 @@ public class LoadingScreenManager : MonoBehaviour
 {
     public static LoadingScreenManager Instance;
     [SerializeField] private Image Image;
+    [SerializeField] private Image ImageInventory;
 
     private void Awake()
     {
@@ -20,6 +21,10 @@ public class LoadingScreenManager : MonoBehaviour
     {
         Image.raycastTarget = true;
         Image.DOFade(1, 0.5f).OnComplete(() => EndActivate(endActivate));
+
+        ImageInventory.raycastTarget = true;
+        ImageInventory.DOFade(1, 0.5f);
+
     }
 
     private void EndActivate(Action endActivate)
@@ -30,11 +35,13 @@ public class LoadingScreenManager : MonoBehaviour
     public void DeActivateLoadingScreen(Action endDeActivate)
     {
         Image.DOFade(0, 0.5f).OnComplete(() => EndDeActivate(endDeActivate));
+        ImageInventory.DOFade(0, 0.5f);
     }
 
     private void EndDeActivate(Action endDeActivate)
     {
         Image.raycastTarget = false;
+        ImageInventory.raycastTarget = false;
         endDeActivate.Invoke();
     }
 }
