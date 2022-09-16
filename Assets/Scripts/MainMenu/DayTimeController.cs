@@ -8,9 +8,9 @@ using System;
 
 public class DayTimeController : MonoBehaviour
 {
-    public List<Sprite> ListSpriteDayTime;
-    public Image Image;
-    public GameObject BG;
+    // public List<Sprite> ListSpriteDayTime;
+    // public Image Image;
+    // public GameObject BG;
 
     public Button Nigtht;
     public Button Dawn;
@@ -20,27 +20,36 @@ public class DayTimeController : MonoBehaviour
     public VideoPlayer DayAndNight;
     public VideoClip DawnClip;
     public VideoClip DayClip;
+    public VideoClip DuskClip;
+    public VideoClip NightClip;
     public GameObject PanelDayTime;
 
-    public void ChangeBG(DateTime dateTime)
+    // public void ChangeBG(DateTime dateTime)
+    // {
+    //     int i = 3;
+    //     int partOfDay = dateTime.Hour;
+
+    //     if (partOfDay >= 5 && partOfDay < 9)
+    //     {
+    //         i = 0;
+    //     }
+    //     else if (partOfDay >= 9 && partOfDay < 17)
+    //     {
+    //         i = 1;
+    //     }
+    //     else if (partOfDay >= 17 && partOfDay < 21)
+    //     {
+    //         i = 2;
+    //     }
+
+    //     Image.sprite = ListSpriteDayTime[i];
+    // }
+
+    void Start()
     {
-        int i = 3;
-        int partOfDay = dateTime.Hour;
-
-        if (partOfDay >= 5 && partOfDay < 9)
-        {
-            i = 0;
-        }
-        else if (partOfDay >= 9 && partOfDay < 17)
-        {
-            i = 1;
-        }
-        else if (partOfDay >= 17 && partOfDay < 21)
-        {
-            i = 2;
-        }
-
-        Image.sprite = ListSpriteDayTime[i];
+        PanelDayTime.SetActive(true);
+        DayAndNight.clip = DayClip;
+        DayAndNight.Play();
     }
 
     void OnEnable()
@@ -53,13 +62,13 @@ public class DayTimeController : MonoBehaviour
 
     void GoNight()
     {
-        ChangeDaySprite(3);
+        DayAndNight.Stop();
+        DayAndNight.clip = NightClip;
+        DayAndNight.Play();
     }
 
     void GoDawn()
     {
-        BG.SetActive(false);
-        PanelDayTime.SetActive(true);
         DayAndNight.Stop();
         DayAndNight.clip = DawnClip;
         DayAndNight.Play();
@@ -67,8 +76,6 @@ public class DayTimeController : MonoBehaviour
 
     void GoDay()
     {
-        BG.SetActive(false);
-        PanelDayTime.SetActive(true);
         DayAndNight.Stop();
         DayAndNight.clip = DayClip;
         DayAndNight.Play();
@@ -76,15 +83,17 @@ public class DayTimeController : MonoBehaviour
 
     void GoDusk()
     {
-        ChangeDaySprite(2);
+        DayAndNight.Stop();
+        DayAndNight.clip = DuskClip;
+        DayAndNight.Play();
     }
 
-    private void ChangeDaySprite(int i)
-    {
-        PanelDayTime.SetActive(false);
-        BG.SetActive(true);
-        Image.sprite = ListSpriteDayTime[i];
-    }
+    // private void ChangeDaySprite(int i)
+    // {
+    //     PanelDayTime.SetActive(false);
+    //     BG.SetActive(true);
+    //     Image.sprite = ListSpriteDayTime[i];
+    // }
 
     void Update()
     {
