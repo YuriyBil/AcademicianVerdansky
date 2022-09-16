@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 using UnityEngine.UI;
 
 public class WeatherController : MonoBehaviour
 {
     public static WeatherController Instance;
     public ParticleSystem SnowFall;
-    public VideoPlayer Storm;
-    public VideoClip ClipStorm;
+    // public VideoPlayer Storm;
+    // public VideoClip ClipStorm;
 
     //public GameObject PanelStorm;
+
+    public GameObject Img;
     public ParticleSystem Blizzard;
+    public ParticleSystem Storm;
+
 
     [SerializeField] private Button _snowFall;
     [SerializeField] private Button _storm;
@@ -45,7 +48,7 @@ public class WeatherController : MonoBehaviour
     void GoSnowFall()
     {
         Storm.Stop();
-        //PanelStorm.SetActive(false);
+        Img.SetActive(false);
         Blizzard.Stop();
 
         if (SnowFall.isPlaying)
@@ -60,15 +63,14 @@ public class WeatherController : MonoBehaviour
 
     void GoStorm()
     {
-        Storm.clip = ClipStorm;
-        //PanelStorm.SetActive(true);
-        Blizzard.Stop();
         SnowFall.Stop();
+        Blizzard.Stop();
+        Img.SetActive(true);
 
         if (Storm.isPlaying)
         {
             Storm.Stop();
-            //PanelStorm.SetActive(false);
+            Img.SetActive(false);
         }
         else
         {
@@ -80,7 +82,7 @@ public class WeatherController : MonoBehaviour
     {
         SnowFall.Stop();
         Storm.Stop();
-        //PanelStorm.SetActive(false);
+        Img.SetActive(false);
 
         if (Blizzard.isPlaying)
         {
@@ -97,7 +99,7 @@ public class WeatherController : MonoBehaviour
         Blizzard.Stop();
         SnowFall.Stop();
         Storm.Stop();
-        //PanelStorm.SetActive(false);
+        Img.SetActive(false);
     }
 
 }
