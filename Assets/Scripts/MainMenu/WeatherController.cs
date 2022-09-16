@@ -11,7 +11,7 @@ public class WeatherController : MonoBehaviour
     public VideoPlayer Storm;
     public VideoClip ClipStorm;
 
-    public GameObject PanelStorm;
+    //public GameObject PanelStorm;
     public ParticleSystem Blizzard;
 
     [SerializeField] private Button _snowFall;
@@ -45,7 +45,7 @@ public class WeatherController : MonoBehaviour
     void GoSnowFall()
     {
         Storm.Stop();
-        PanelStorm.SetActive(false);
+        //PanelStorm.SetActive(false);
         Blizzard.Stop();
 
         if (SnowFall.isPlaying)
@@ -61,14 +61,14 @@ public class WeatherController : MonoBehaviour
     void GoStorm()
     {
         Storm.clip = ClipStorm;
-        PanelStorm.SetActive(true);
+        //PanelStorm.SetActive(true);
         Blizzard.Stop();
         SnowFall.Stop();
 
         if (Storm.isPlaying)
         {
             Storm.Stop();
-            PanelStorm.SetActive(false);
+            //PanelStorm.SetActive(false);
         }
         else
         {
@@ -80,7 +80,7 @@ public class WeatherController : MonoBehaviour
     {
         SnowFall.Stop();
         Storm.Stop();
-        PanelStorm.SetActive(false);
+        //PanelStorm.SetActive(false);
 
         if (Blizzard.isPlaying)
         {
@@ -97,7 +97,7 @@ public class WeatherController : MonoBehaviour
         Blizzard.Stop();
         SnowFall.Stop();
         Storm.Stop();
-        PanelStorm.SetActive(false);
+        //PanelStorm.SetActive(false);
     }
 
 }
