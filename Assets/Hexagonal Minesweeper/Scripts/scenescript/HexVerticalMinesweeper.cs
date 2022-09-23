@@ -464,7 +464,7 @@ public class HexVerticalMinesweeper : MonoBehaviour
             Debug.Log("хз хз");
             return;
         }
-        Debug.Log("хз2 хз2");
+
         if (levelData[(int)mouseOffsetPos.x][(int)mouseOffsetPos.y] != -1)
         {//not invalid area
             tapped = GameObject.Find("grid" + mouseOffsetPos.x.ToString() + "_" + mouseOffsetPos.y.ToString());
