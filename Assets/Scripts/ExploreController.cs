@@ -69,7 +69,7 @@ public class ExploreController : MonoBehaviour
 
     private void OpenGreenLevel()
     {
-        PlayerPrefs.SetInt("Difficulty", 0);
+        //PlayerPrefs.SetInt("Difficulty", 0);
         SceneManager.LoadScene("Game");
     }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 // Enum to be able to easily select a difficulty to test in the editor
 public enum DifficultyMeasure
@@ -130,7 +131,6 @@ public class TilemapManager : MonoBehaviour
         {
             MiddleClick(WorldToBoardCoords(Input.mousePosition));
         }
-
     }
 
     private void LeftClick(Vector3Int tileCoords)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraScript : MonoBehaviour
 {
@@ -25,11 +26,11 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.Equals))
+        if (Input.GetKey(KeyCode.Equals))
             if (cam.orthographicSize <= zoomSpeed)
                 cam.orthographicSize = zoomSpeed;
             else cam.orthographicSize -= zoomSpeed;
-        if(Input.GetKey(KeyCode.Minus))
+        if (Input.GetKey(KeyCode.Minus))
             cam.orthographicSize += zoomSpeed;
         float basicSpeed = movementSpeed;
         transform.position = new Vector3(transform.position.x + Input.GetAxisRaw("Horizontal") * (basicSpeed + zoomModifier * cam.orthographicSize / regOrthoSize), transform.position.y + Input.GetAxisRaw("Vertical") * (basicSpeed + zoomModifier * cam.orthographicSize / regOrthoSize));
