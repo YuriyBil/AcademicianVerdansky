@@ -7,7 +7,7 @@ public class MainMenuButtons : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("11111");
+        Debug.Log("1");
         MainMenuManager.Instance.OpenScreen(_gameState);
         WeatherController.Instance.CancelWeather();
     }

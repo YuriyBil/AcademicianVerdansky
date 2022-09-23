@@ -22,7 +22,7 @@ public class DayTimeController : MonoBehaviour
     public VideoClip DayClip;
     public VideoClip DuskClip;
     public VideoClip NightClip;
-    public GameObject PanelDayTime;
+    //public GameObject PanelDayTime;
 
     // public void ChangeBG(DateTime dateTime)
     // {
@@ -47,7 +47,7 @@ public class DayTimeController : MonoBehaviour
 
     void Start()
     {
-        PanelDayTime.SetActive(true);
+        //PanelDayTime.SetActive(true);
         DayAndNight.clip = DayClip;
         DayAndNight.Play();
     }
